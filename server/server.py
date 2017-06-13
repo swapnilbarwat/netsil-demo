@@ -1,0 +1,112 @@
+import json
+# Redis modules.
+import brukva
+# Memcached module
+import asyncmc
+# MySQL Module
+from tornado_mysql import pools
+
+import traceback
+
+import os, os.path
+import tornado.ioloop
+import tornado.web
+from tornado.options import define, options, parse_command_line
+from tornado.httpclient import AsyncHTTPClient
+from tornado import gen
+from pprint import pprint
+from tornado_mysql import pools
+
+
+# ENVIORNMENT VARAIBLES initialization
+
+DEMO_APP_PORT = os.getenv('DEMO_APP_PORT', '9000')
+
+iniitalized = False
+
+class MainHandler(tornado.web.RequestHandler):
+	def get(self):
+		print ("NetSil Demo app http server")
+        # Need default case if someone did not called valid API #TODO
+		self.write("NetSil Demo app http server")
+
+class Request():
+    def __init__(self, errors, success):
+        self.name = name
+        self.clienttouse = clienttouse
+        self.errors = errors
+        self.success = success
+
+@gen.coroutine
+def makeResponse(data, request):
+    if (data.response_code == 200):
+        request.write("Sucessful response: 200")
+    else:
+        print("error with code  " + str(data.error))
+        request.set_status(request.error)
+
+class HttpHandler(tornado.web.RequestHandler):
+    @gen.coroutine
+    def post(self):
+        print ("POST ==> calling HttpHandler")
+        data = json.loads(self.request.body)
+        makeResponse(data, self)
+        self.write("http request");
+        self.finish()
+
+class Application(tornado.web.Application):
+    def __init__(self):
+        
+        # Handlers defining the url routing.
+        handlers = [
+                    (r"/testservice", MainHandler),
+                    (r"/callhttp", HttpHandler),
+                    (r".*",   MainHandler),
+                    ]
+            
+        # Settings:
+        settings = dict(            cookie_secret = "43osdETzKXasdQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
+                                    template_path=os.path.join(os.path.dirname(__file__), "templates"),
+                                    static_path=os.path.join(os.path.dirname(__file__), "static"),
+                        # should be false to use POST method
+                                    xsrf_cookies= False,
+                                    autoescape="xhtml_escape",
+                                    # apptitle used as page title in the template.
+                                    apptitle = 'Demo App For MicroServices',
+                        )
+                    
+                    # Call super constructor.
+        tornado.web.Application.__init__(self, handlers, **settings)
+
+
+def main():
+    global iniitalized
+    tornado.options.parse_command_line()
+    app = Application ()
+    # TODO ADD NETSIL BANNER
+    print ("======================================================")
+    print ("                Http server started                   ")
+    print ("======================================================")
+    # configure()
+    # allServices.printServices()
+    iniitalized = True
+    app.listen(int(DEMO_APP_PORT))
+    tornado.ioloop.IOLoop.current().start()
+
+
+def cleanup():
+    tornado.ioloop.IOLoop.current().stop()
+    print ("\n======================================================")
+    print ("                 Http server stopped                    ")
+    print ("========================================================")
+
+# allServices = Services()
+
+if __name__ == "__main__":
+    try :
+        main()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        cleanup()
+

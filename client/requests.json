@@ -1,0 +1,19 @@
+{
+	"requests":[
+	{
+		"success": {
+			"count": "100"
+		},
+		"errors": [
+			{
+				"error": "404",
+				"count": "10"
+			},
+			{
+				"error": "403",
+				"count": "10"
+			}
+		]
+	}
+]
+}
