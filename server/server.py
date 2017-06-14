@@ -39,20 +39,31 @@ class Request():
 
 @gen.coroutine
 def makeResponse(data, request):
-    if (data.response_code == 200):
+    rCode=int(data.response_code)
+    request.set_status(rCode)
+
+    if (rCode == 200):
+        print("Sending 200")
         request.write("Sucessful response: 200")
+        request.finish()
+    elif (rCode == 304):
+        print("Sending 304")
+        request.finish()
     else:
-        print("error with code  " + str(data.error))
-        request.set_status(request.error)
+        print("error with code  " + str(rCode))
+        request.write(str(rCode))
+        request.finish()
 
 class HttpHandler(tornado.web.RequestHandler):
     @gen.coroutine
     def post(self):
         print ("POST ==> calling HttpHandler")
-        data = json.loads(self.request.body)
-        makeResponse(data, self)
-        self.write("http request");
-        self.finish()
+        requestData=Data(self.request.body)
+        makeResponse(requestData, self)
+
+class Data(object):
+    def __init__(self,data):
+        self.__dict__ = json.loads(data)
 
 class Application(tornado.web.Application):
     def __init__(self):
