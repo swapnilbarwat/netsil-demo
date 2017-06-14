@@ -1,13 +1,4 @@
 import json
-# Redis modules.
-import brukva
-# Memcached module
-import asyncmc
-# MySQL Module
-from tornado_mysql import pools
-
-import traceback
-
 import os, os.path
 import tornado.ioloop
 import tornado.web
@@ -15,7 +6,6 @@ from tornado.options import define, options, parse_command_line
 from tornado.httpclient import AsyncHTTPClient
 from tornado import gen
 from pprint import pprint
-from tornado_mysql import pools
 
 
 # ENVIORNMENT VARAIBLES initialization
