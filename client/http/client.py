@@ -10,6 +10,8 @@ from tornado.httpclient import HTTPClient
 
 from tornado.httpclient import AsyncHTTPClient
 
+import time
+
 DEMO_APP_HOST = os.getenv('DEMO_APP_HOST', 'localhost')
 DEMO_APP_PORT = os.getenv('DEMO_APP_PORT', '9000')
 DEMO_CONFIG_FILE = os.getenv('DEMO_CONFIG_FILE', 'requests.json')
@@ -91,4 +93,7 @@ class Request():
     def __init__(self,response_code):
         self.response_code=response_code
 
-async_client()
+while(1):
+    async_client()
+    time.sleep(5)
+    print("Waiting for 5 sec...")

@@ -1,0 +1,6 @@
+{
+	"mysql": {
+		"command": "select * from employee",
+		"count": "100"
+	}
+}
