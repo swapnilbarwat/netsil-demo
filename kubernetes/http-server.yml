@@ -11,6 +11,6 @@ spec:
     spec:
       containers:
       - name: http-server
-        image: harshals/http_server:latest
+        image: harshals/http_server
         ports:
         - containerPort: 9000
