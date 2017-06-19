@@ -2,9 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: server.netsil.io
-  name: server.netsil.io
+    name: http-server
+  name: http-server
 spec:
+  type: ExternalName
+  externalName: http.netsil.io
   ports:
     # The port that this service should serve on.
     - port: 9000

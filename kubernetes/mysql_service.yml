@@ -2,9 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: mysql.netsil.io
-  name: mysql.netsil.io
+    name: mysql-server
+  name: mysql-server
 spec:
+  type: ExternalName
+  externalName: mysql.netsil.io
   ports:
     # The port that this service should serve on.
     - port: 3306
