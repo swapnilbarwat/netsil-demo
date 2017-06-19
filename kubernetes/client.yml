@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: netsil-client
 spec:
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: netsil-client
-        image: netsil_client:latest
+        image: harshals/netsil_client
         ports:
         - containerPort: 80
         - containerPort: 9000
