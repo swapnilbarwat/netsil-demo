@@ -17,10 +17,10 @@ spec:
         - containerPort: 9000
         - containerPort: 3306
         - containerPort: 6379
-      env:
-      - name: DEMO_APP_HOST
-        value: "http.netsil.io"
-      - name: MYSQL_HOST
-        value: "mysql.netsil.io"
-      - name: REDIS_HOST
-        value: "redis.netsil.io"
+        env:
+        - name: DEMO_APP_HOST
+          value: "http.netsil.io"
+        - name: MYSQL_HOST
+          value: "mysql.netsil.io"
+        - name: REDIS_HOST
+          value: "redis.netsil.io"
