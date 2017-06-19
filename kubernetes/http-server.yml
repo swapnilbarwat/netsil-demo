@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: http-server
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: http-server
+    spec:
+      containers:
+      - name: http-server
+        image: http_server:latest
+        ports:
+        - containerPort: 9000

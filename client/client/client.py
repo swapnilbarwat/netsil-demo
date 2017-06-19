@@ -14,6 +14,8 @@ import time
 
 import MySQLdb
 
+import redis
+
 DEMO_APP_HOST = os.getenv('DEMO_APP_HOST', 'localhost')
 DEMO_APP_PORT = os.getenv('DEMO_APP_PORT', '9000')
 DEMO_CONFIG_FILE = os.getenv('DEMO_CONFIG_FILE', 'requests.json')
@@ -120,7 +122,7 @@ def connectMysqlDB():
             count=data['mysql']['count']
             for i in range(int(count)):
                 #if query is insert and already not run
-                if(command.find("insert") && !isInsertdone):
+                if((command.find("insert")) and (not isInsertdone)):
                     cur.execute("Select count(*) from employee")
                     result=cur.fetchone()
                     #no of records does not match with count in json then keep on inserting.
@@ -132,8 +134,8 @@ def connectMysqlDB():
                             print(row)
                 else:
                     cur.execute(command)
-                        for row in cur:
-                            print(row)
+                    for row in cur:
+                        print(row)
     db.close()
 
 def redisClient():
@@ -150,7 +152,7 @@ def redisClient():
         r.delete('redis-key-'+str(i))
         i=i+1
 
-global isInsertdone= false
+isInsertdone = False
 while(1):
     print("Calling http client")
     async_client()

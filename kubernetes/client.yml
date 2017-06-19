@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: netsil-client
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: netsil
+    spec:
+      containers:
+      - name: netsil-client
+        image: netsil_client:latest
+        ports:
+        - containerPort: 80
+        - containerPort: 9000
+        - containerPort: 3306
+        - containerPort: 6379
+      env:
+        - name: DEMO_APP_HOST
+          value: server.netsil.io
+        - name: MYSQL_HOST
+          value: mysql.netsil.io
+        - name: REDIS_HOST
+          value: redis.netsil.io
