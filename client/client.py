@@ -16,15 +16,16 @@ import MySQLdb
 
 import redis
 
-DEMO_APP_HOST = os.getenv('DEMO_APP_HOST', 'localhost')
+DEMO_APP_HOST = os.getenv('DEMO_APP_HOST', '35.184.3.133')
 DEMO_APP_PORT = os.getenv('DEMO_APP_PORT', '9000')
 DEMO_CONFIG_FILE = os.getenv('DEMO_CONFIG_FILE', 'requests.json')
 DEMO_APP_URL = "http://" + DEMO_APP_HOST + ":" + DEMO_APP_PORT + "/callhttp"
-MYSQL_HOST = os.getenv('MYSQL_HOST', '127.0.0.1')
+MYSQL_HOST = os.getenv('MYSQL_HOST', '104.198.234.47')
 MYSQL_USER = os.getenv('MYSQL_USER', 'root')
 MYSQL_PWD = os.getenv('MYSQL_PWD', '')
-REDIS_HOST = os.getenv('REDIS_HOST', '172.17.0.2')
+REDIS_HOST = os.getenv('REDIS_HOST', '130.211.238.221')
 
+isInsertdone=False
 
 def async_client():
     try:
@@ -118,22 +119,22 @@ def connectMysqlDB():
         f.close()
 
         for command in data['mysql']:
-            command=data['mysql']['command']
-            count=data['mysql']['count']
+            query=command['command']
+            count=command['count']
             for i in range(int(count)):
                 #if query is insert and already not run
-                if((command.find("insert")) and (not isInsertdone)):
+                if((query.find("insert"))):
                     cur.execute("Select count(*) from employee")
                     result=cur.fetchone()
                     #no of records does not match with count in json then keep on inserting.
                     if(result == int(count)):
-                        isInsertdone=true
+                        isInsertdone=True
                     else:
-                        cur.execute(command)
+                        cur.execute(query)
                         for row in cur:
                             print(row)
                 else:
-                    cur.execute(command)
+                    cur.execute(query)
                     for row in cur:
                         print(row)
     db.close()
@@ -141,18 +142,16 @@ def connectMysqlDB():
 def redisClient():
     r = redis.StrictRedis(host=REDIS_HOST, port=6379, db=0)
 
-    i=0
-    while(1):
+    count=10
+    for i in range(count):
         print("Adding key redis-key-" + str(i))
         r.set('redis-key-' + str(i), 'redis-value-' + str(i))
         time.sleep(5)
-        print("Reading redis-key-" + str(i) + " with value " + r.get('key-'+str(i)))
+        print("Reading redis-key-" + str(i) + " with value " + str(r.get('redis-key-' + str(i))))
         print ("waiting for 5 sec..")
         #deleting key once insert and read is finished
         r.delete('redis-key-'+str(i))
-        i=i+1
 
-isInsertdone = False
 while(1):
     print("Calling http client")
     async_client()

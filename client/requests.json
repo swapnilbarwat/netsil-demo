@@ -1,12 +1,14 @@
 {
-	"mysql": [{
-		"command": "INSERT INTO employee (fname, lname) VALUES ('first name', 'last name')",
-		"count": "100"
-	},
-	{
-		"command": "select * from employee",
-		"count": "100"
-	}],
+	"mysql": [
+		{
+			"command": "INSERT INTO employee (fname, lname) VALUES ('first name', 'last name')",
+			"count": "100"
+		},
+		{
+			"command": "select * from employee",
+			"count": "100"
+		}
+	],
 	"http":[
 	{
 		"success": {
