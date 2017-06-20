@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: thrift-server
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: thrift-server
+    spec:
+      containers:
+      - name: thrift-server
+        image: harshals/thrift_server
+        ports:
+        - containerPort: 9090

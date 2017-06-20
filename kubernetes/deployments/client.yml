@@ -24,4 +24,15 @@ spec:
           value: "mysql-server"
         - name: REDIS_HOST
           value: "redis-service"
-        
+        - name: THRIFT_SERVER
+          value: "thrift-server"
+        - name: DEMO_CONFIG_FILE
+          value: "/config/request.json"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config
+      volumes:
+      # consume the file-like keys of the configmap via volume plugin
+      - name: config-volume
+        configMap:
+          name: http-error-workload
