@@ -27,7 +27,7 @@ spec:
         - name: THRIFT_SERVER
           value: "thrift-server"
         - name: DEMO_CONFIG_FILE
-          value: "/config/request.json"
+          value: "/config/requests.json"
         volumeMounts:
         - name: config-volume
           mountPath: /config
