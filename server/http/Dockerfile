@@ -4,7 +4,7 @@ FROM python:2.7
 RUN apt-get clean && apt-get update
 RUN pip install tornado
 RUN mkdir -p /usr/local/k8s_microsim && cd /usr/local/k8s_microsim
-RUN apt-get install nginx
+RUN apt-get install nginx -y
 ADD ssl /etc/nginx/ssl
 RUN rm /etc/nginx/site-enabled/*
 COPY ssl/netsil.conf /etc/nginx/site-enabled/
