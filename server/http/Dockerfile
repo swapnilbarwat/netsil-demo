@@ -4,6 +4,10 @@ FROM python:2.7
 RUN apt-get clean && apt-get update
 RUN pip install tornado
 RUN mkdir -p /usr/local/k8s_microsim && cd /usr/local/k8s_microsim
+RUN apt-get install nginx
+ADD ssl /etc/nginx/ssl
+RUN rm /etc/nginx/site-enabled/*
+COPY ssl/netsil.conf /etc/nginx/site-enabled/
 COPY server.py /usr/local/k8s_microsim
 WORKDIR /usr/local/k8s_microsim/
 

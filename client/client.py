@@ -17,6 +17,8 @@ import MySQLdb
 
 import redis
 
+import statsd
+
 # your gen-py dir
 sys.path.append('gen-py')
 
@@ -35,15 +37,20 @@ DEMO_APP_HOST = os.getenv('DEMO_APP_HOST', '35.184.3.133')
 DEMO_APP_PORT = os.getenv('DEMO_APP_PORT', '9000')
 DEMO_CONFIG_FILE = os.getenv('DEMO_CONFIG_FILE', 'requests.json')
 DEMO_APP_URL = "http://" + DEMO_APP_HOST + ":" + DEMO_APP_PORT + "/callhttp"
+DEMO_HTTPS_URL= "https://" + DEMO_APP_HOST + ":" + DEMO_APP_PORT + "/callhttp"
 MYSQL_HOST = os.getenv('MYSQL_HOST', '104.198.234.47')
 MYSQL_USER = os.getenv('MYSQL_USER', 'root')
 MYSQL_PWD = os.getenv('MYSQL_PWD', '')
 REDIS_HOST = os.getenv('REDIS_HOST', '130.211.238.221')
 THRIFT_SERVER = os.getenv("THRIFT_SERVER", "127.0.0.1")
+STATSD_SERVER = os.getenv("STATSD_SERVER", "127.0.0.1")
 
 isInsertdone=False
 
-def async_client():
+#need to pod name as prefix
+statsObj = statsd.StatsClient(STATSD_SERVER, prefix=None, 8125)
+
+def async_client(isHttps):
     try:
         http_client = HTTPClient()
         # http_client = tornado.httpclient.AsyncHTTPClient(
@@ -57,31 +64,37 @@ def async_client():
 
         for request in data['http']:
             success_count=int(request['success']['count'])
-            sendSuccessRequests(http_client, success_count)
+            sendSuccessRequests(http_client, success_count, isHttps)
             errorList=request['errors']
-            sendErrorRequests(http_client, errorList)
+            sendErrorRequests(http_client, errorList, isHttps)
             
         http_client.close()
 
-def handleResponse(response):
-    print ("Callback function to handle response")
-
-def sendSuccessRequests(http_client, request_count):
+@statsObj.timer('http.success.latency')
+def sendSuccessRequests(http_client, request_count, isHttps):
     req = Request(200)
     reqObJson = json.dumps(req.__dict__)
     headers = {'Content-Type': 'application/json'}
     lcount=0
     while lcount < request_count:
         try:
-            http_request = HTTPRequest( DEMO_APP_URL,"POST",headers,body=reqObJson  )
+            if(isHttps == True):
+                http_request = HTTPRequest( DEMO_HTTPS_URL,"POST",headers,body=reqObJson  )
+            else:
+                http_request = HTTPRequest( DEMO_APP_URL,"POST",headers,body=reqObJson  )
+            startTime=time.time()
             response = http_client.fetch(http_request)
+            duration = time.time() - startTime
+            statsObj.gauge('http.latency', duration)
+            statsObj.incr('http.success.count', tags=['request:http'])
             lcount=lcount+1
         except Exception as e:
             print (str(e))
             pass
         print ( "Request sent count -" + str(lcount))
 
-def sendErrorRequests(http_client, errorList):
+@statsObj.timer('http.error.latency')
+def sendErrorRequests(http_client, errorList, isHttps):
     for error in errorList:
         headers = {'Content-Type': 'application/json'}
         lcount=0
@@ -91,10 +104,13 @@ def sendErrorRequests(http_client, errorList):
             req = Request(error['http_code'])
             reqObJson = json.dumps(req.__dict__)
             try:
-                # http_request = HTTPRequest( DEMO_APP_URL,"POST",headers,body=reqObJson  )
-                # response = http_client.fetch(http_request)
-                http_request = HTTPRequest( DEMO_APP_URL,"POST",headers,body=reqObJson  )
+                if(isHttps == True):
+                    http_request = HTTPRequest( DEMO_HTTPS_URL,"POST",headers,body=reqObJson  )
+                else:
+                    http_request = HTTPRequest( DEMO_APP_URL,"POST",headers,body=reqObJson  )
                 http_client.fetch(http_request)
+                TAG="request:error." + req
+                statsObj.incr('http.success.count')
                 # tornado.ioloop.IOLoop.instance().start()
                 lcount=lcount+1
             except HTTPError as e:
@@ -103,16 +119,6 @@ def sendErrorRequests(http_client, errorList):
             except Exception as e:
                 print (str(e))
             print ( "Request with " + str(error['http_code']) + " sent with count -" + str(lcount))
-
-def handle_request(response):
-    '''callback needed when a response arrive'''
-    if response.error:
-        print "Error:", response.error
-        pass
-    else:
-        print 'called'
-        print response.body
-
 
 class Request():
     def __init__(self,response_code):
@@ -203,7 +209,9 @@ def thriftClient():
 
 while(1):
     print("Calling http client")
-    async_client()
+    async_client(False)
+    print("Calling https client")
+    async_client(True)
     print("Calling mysql client")
     connectMysqlDB()
     print("calling redis client")
