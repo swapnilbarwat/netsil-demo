@@ -48,7 +48,7 @@ STATSD_SERVER = os.getenv("STATSD_SERVER", "127.0.0.1")
 isInsertdone=False
 
 #need to pod name as prefix
-statsObj = statsd.StatsClient(STATSD_SERVER, prefix=None, 8125)
+statsObj = statsd.StatsClient(host=STATSD_SERVER, prefix=None, port=8125)
 
 def async_client(isHttps):
     try:
