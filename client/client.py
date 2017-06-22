@@ -86,7 +86,7 @@ def sendSuccessRequests(http_client, request_count, isHttps):
             response = http_client.fetch(http_request)
             duration = time.time() - startTime
             statsObj.gauge('http.latency', duration)
-            statsObj.incr('http.success.count', tags=['request:http'])
+            statsObj.incr('http.success.count')
             lcount=lcount+1
         except Exception as e:
             print (str(e))
