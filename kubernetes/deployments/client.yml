@@ -17,6 +17,7 @@ spec:
         - containerPort: 9000
         - containerPort: 3306
         - containerPort: 6379
+        - containerPort: 443
         env:
         - name: DEMO_APP_HOST
           value: "http-server"
