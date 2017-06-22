@@ -8,6 +8,7 @@ RUN apt-get install nginx -y
 ADD ssl /etc/nginx/ssl
 RUN rm /etc/nginx/sites-enabled/*
 COPY ssl/netsil.conf /etc/nginx/sites-enabled/
+RUN service nginx restart
 COPY server.py /usr/local/k8s_microsim
 WORKDIR /usr/local/k8s_microsim/
 
