@@ -14,4 +14,6 @@ spec:
         image: harshals/http_server
         ports:
         - containerPort: 9000
+          name: http-port
         - containerPort: 443
+          name: https-port
