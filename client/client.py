@@ -237,11 +237,8 @@ def dyanamoDB():
 def dynamoDBCreateTable(dClient):
     isTableExist=False
     try:
-        response = dClient.describe_table(
-            TableName='users'
-        )
+        table = dClient.Table('users')
     except ClientError as ce:
-        if ce.response['Error']['Code'] == 'ResourceNotFoundException':
             print (str(e))
             isTableExist=True
         else:
