@@ -275,13 +275,13 @@ def dynamoDBCreateItem(dClient, count):
         response = table.get_item(
         table.put_item(
            Item={
-                'username': 'janedoe-'+str(i),
+                'username': 'janedoe',
                 'first_name': 'Jane',
-                'last_name': 'Doe'+str(i),
+                'last_name': 'Doe',
                 'age': 25,
                 'account_type': 'standard_user',
             }
-        )
+        ))
         item = response['Item']
         print(item)
 
