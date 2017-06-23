@@ -218,15 +218,15 @@ def dyanamoDB():
 
     recordCount=data['dynamodb']['recordCount']
     isAWS=data['dynamodb']['isAWS']
+    region=data['AWS']['region']
     if(isAWS):
-        region=data['AWS']['region']
         # Get the service resource.
         dynamodb = boto3.resource('dynamodb',region_name=region)
         #create table
         print("Creating dynamodb table")
     else:
          # Get the service resource.
-        dynamodb = boto3.resource('dynamodb',endpoint_url=DYNAMODB_HOST_URL)
+        dynamodb = boto3.resource('dynamodb',endpoint_url=DYNAMODB_HOST_URL,region_name=region)
 
     dynamoDBCreateTable(dynamodb)
     dynamoDBCreateItem(dynamodb,recordCount)
