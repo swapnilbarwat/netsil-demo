@@ -240,9 +240,13 @@ def dynamoDBCreateTable(dClient):
         response = dClient.describe_table(
             TableName='users'
         )
-    except ResourceNotFoundException as e:
+    except ClientError as ce:
+        if ce.response['Error']['Code'] == 'ResourceNotFoundException':
             print (str(e))
             isTableExist=True
+        else:
+            print("Unknown error occured: " + str(e))
+
     if(isTableExist == False):
     # Create the DynamoDB table.
         table = dClient.create_table(
@@ -312,15 +316,15 @@ def dynamoDBReadItem(dClient,count):
 def main():
     while(1):
         print("Calling http client")
-        async_client(False)
+        # async_client(False)
         print("Calling https client")
-        async_client(True)
+        # async_client(True)
         print("Calling mysql client")
-        connectMysqlDB()
+        # connectMysqlDB()
         print("calling redis client")
-        redisClient()
+        # redisClient()
         print("Calling thrift cleint")
-        thriftClient()
+        # thriftClient()
         print("Calling dynamodb")
         dyanamoDB()
         print("Waiting for 5 sec...")
