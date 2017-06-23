@@ -34,7 +34,9 @@
 		"recordCount": "100",
 		"isAWS": false,
 		"AWS": {
-			"region": "us-west-2"
+			"region": "us-west-2",
+			"accessKey": "123456789",
+			"secretKey": "123456789"
 		}
 	}
 }
