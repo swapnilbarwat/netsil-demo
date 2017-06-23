@@ -34,7 +34,7 @@
 		"recordCount": "100",
 		"isAWS": false,
 		"AWS": {
-			"region": ""
+			"region": "us-west-2"
 		}
 	}
 }
