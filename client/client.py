@@ -238,10 +238,11 @@ def dynamoDBCreateTable(dClient):
     isTableExist=False
     try:
         table = dClient.Table('users')
+        isTableExist=True
     except ClientError as ce:
             print (str(e))
-            isTableExist=True
-            
+            isTableExist=False
+
     if(isTableExist == False):
     # Create the DynamoDB table.
         table = dClient.create_table(
