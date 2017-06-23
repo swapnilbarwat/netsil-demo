@@ -272,7 +272,7 @@ def dynamoDBCreateTable(dClient):
 
 def dynamoDBCreateItem(dClient, count):
     table = dClient.Table('users')
-    for i in range(dynamoDBCreateItem):
+    for i in range(count):
         response = table.get_item(
         table.put_item(
            Item={
