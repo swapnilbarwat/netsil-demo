@@ -216,7 +216,7 @@ def dyanamoDB():
         data=json.loads(f.read())
         f.close()
 
-    recordCount=data['dynamodb']['recordCount']
+    recordCount=int(data['dynamodb']['recordCount'])
     isAWS=data['dynamodb']['isAWS']
     region=data['dynamodb']['AWS']['region']
     accessKeyId=data['dynamodb']['AWS']['accessKey']
