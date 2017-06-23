@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dynamodb
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dynamodb
+    spec:
+      containers:
+      - name: dynamodb
+        image: peopleperhour/dynamodb
+        ports:
+        - containerPort: 8000
+          name: shell

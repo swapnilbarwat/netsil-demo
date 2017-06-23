@@ -31,6 +31,7 @@ from thrift import Thrift
 from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
+import boto3
 
 
 DEMO_APP_HOST = os.getenv('DEMO_APP_HOST', '35.184.3.133')
@@ -44,6 +45,8 @@ MYSQL_PWD = os.getenv('MYSQL_PWD', '')
 REDIS_HOST = os.getenv('REDIS_HOST', '130.211.238.221')
 THRIFT_SERVER = os.getenv("THRIFT_SERVER", "127.0.0.1")
 STATSD_SERVER = os.getenv("STATSD_SERVER", "127.0.0.1")
+DYNAMODB_HOST = os.getenv("DYNAMODB_HOST", "127.0.0.1")
+DYNAMODB_HOST_URL = "http://" + DYNAMODB_HOST + ":8000"
 
 isInsertdone=False
 
@@ -208,16 +211,108 @@ def thriftClient():
     except Thrift.TException, tx:
         print 'Something went wrong : %s' % (tx.message)
 
-while(1):
-    print("Calling http client")
-    async_client(False)
-    print("Calling https client")
-    async_client(True)
-    print("Calling mysql client")
-    connectMysqlDB()
-    print("calling redis client")
-    redisClient()
-    print("Calling thrift cleint")
-    thriftClient()
-    print("Waiting for 5 sec...")
-    time.sleep(5)
+def dyanamoDB():
+    with open(DEMO_CONFIG_FILE) as f:
+        data=json.loads(f.read())
+        f.close()
+
+    recordCount=data['dynamodb']['recordCount']
+    isAWS=data['dynamodb']['isAWS']
+    if(isAWS):
+        region=data['AWS']['region']
+        # Get the service resource.
+        dynamodb = boto3.resource('dynamodb',region_name=region)
+        #create table
+        print("Creating dynamodb table")
+    else:
+         # Get the service resource.
+        dynamodb = boto3.resource('dynamodb',endpoint_url=DYNAMODB_HOST_URL)
+
+    dynamoDBCreateTable(dynamodb)
+    dynamoDBCreateItem(dynamodb,recordCount)
+    dynamoDBReadItem(dynamodb,recordCount)
+
+def dynamoDBCreateTable(dClient):
+    # Create the DynamoDB table.
+    table = dClient.create_table(
+        TableName='users',
+        KeySchema=[
+            {
+                'AttributeName': 'username',
+                'KeyType': 'HASH'
+            },
+            {
+                'AttributeName': 'last_name',
+                'KeyType': 'RANGE'
+            }
+        ],
+        AttributeDefinitions=[
+            {
+                'AttributeName': 'username',
+                'AttributeType': 'S'
+            },
+            {
+                'AttributeName': 'last_name',
+                'AttributeType': 'S'
+            },
+
+        ],
+        ProvisionedThroughput={
+            'ReadCapacityUnits': 5,
+            'WriteCapacityUnits': 5
+        }
+    )
+
+    # Wait until the table exists.
+    table.meta.client.get_waiter('table_exists').wait(TableName='users')
+
+    # Print out some data about the table.
+    print(table.item_count)
+
+def dynamoDBCreateItem(dClient, count):
+    table = dClient.Table('users')
+    for i in range(dynamoDBCreateItem):
+        response = table.get_item(
+        table.put_item(
+           Item={
+                'username': 'janedoe-'+str(i),
+                'first_name': 'Jane',
+                'last_name': 'Doe'+str(i),
+                'age': 25,
+                'account_type': 'standard_user',
+            }
+        )
+        item = response['Item']
+        print(item)
+
+def dynamoDBReadItem(dClient,count):
+    table = dClient.Table('users')
+    for i in range(count):
+        response = table.get_item(
+        Key={
+            'username': 'janedoe-'+str(i),
+            'last_name': 'Doe-'+str(i)
+        }
+        )
+        item = response['Item']
+        print(item)
+
+def main():
+    while(1):
+        print("Calling http client")
+        async_client(False)
+        print("Calling https client")
+        async_client(True)
+        print("Calling mysql client")
+        connectMysqlDB()
+        print("calling redis client")
+        redisClient()
+        print("Calling thrift cleint")
+        thriftClient()
+        print("Calling dynamodb")
+        dyanamoDB()
+        print("Waiting for 5 sec...")
+        time.sleep(5)
+
+if __name__ == "__main__":
+    main()

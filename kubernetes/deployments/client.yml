@@ -27,6 +27,8 @@ spec:
           value: "redis-service"
         - name: THRIFT_SERVER
           value: "thrift-server"
+        - name: DYNAMODB_HOST
+          value: "dynamodb"
         - name: DEMO_CONFIG_FILE
           value: "/config/requests.json"
         volumeMounts:
