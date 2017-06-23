@@ -32,6 +32,7 @@ from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 import boto3
+from botocore.exceptions import ClientError
 
 
 DEMO_APP_HOST = os.getenv('DEMO_APP_HOST', '35.184.3.133')
