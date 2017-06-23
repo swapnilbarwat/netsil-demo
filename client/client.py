@@ -241,9 +241,7 @@ def dynamoDBCreateTable(dClient):
     except ClientError as ce:
             print (str(e))
             isTableExist=True
-        else:
-            print("Unknown error occured: " + str(e))
-
+            
     if(isTableExist == False):
     # Create the DynamoDB table.
         table = dClient.create_table(
