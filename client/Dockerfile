@@ -18,9 +18,9 @@ ENV REDIS_HOST='127.0.0.1'
 COPY client.py  /usr/local/client
 COPY requests.json /usr/local/client
 ADD gen-py /usr/local/client/gen-py
-COPY ssl/netsil.key /usr/share/ca-certificates/
-COPY ssl/netsil.crt /usr/share/ca-certificates/
-RUN update-ca-certificates --fresh
+COPY ssl/netsil.key /etc/ssl/certs
+COPY ssl/netsil.crt /etc/ssl/certs
+RUN c_rehash
 WORKDIR /usr/local/client/
 
 CMD python client.py
