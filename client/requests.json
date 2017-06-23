@@ -29,5 +29,12 @@
 			}
 		]
 	}
-]
+	],
+	"dynamodb": {
+		"recordCount": "100",
+		"isAWS": false,
+		"AWS": {
+			"region": ""
+		}
+	}
 }
