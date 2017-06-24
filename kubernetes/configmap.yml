@@ -1,11 +1,16 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
+<<<<<<< HEAD
   name: http-error-workload
+=======
+  name: request.json
+>>>>>>> 4d93c8a...  - Added configmap
   namespace: default
 data:
   # example of a complex property defined using --from-file
   requests.json: |
+<<<<<<< HEAD
     {
        "mysql": [
         {
@@ -48,3 +53,47 @@ data:
             }
         }
     }
+=======
+	{
+		"mysql": [
+			{
+				"command": "INSERT INTO employee (fname, lname) VALUES ('first name', 'last name')",
+				"count": "100"
+			},
+			{
+				"command": "select * from employee",
+				"count": "100"
+			}
+		],
+		"http":[
+		{
+			"success": {
+				"count": "3"
+			},
+			"errors": [
+				{
+					"http_code": "403",
+					"count": "3"
+				},
+				{
+					"http_code": "304",
+					"count": "3"
+				},
+				{
+					"http_code": "305",
+					"count": "4"
+				}
+			]
+		}
+		],
+		"dynamodb": {
+			"recordCount": "100",
+			"isAWS": false,
+			"AWS": {
+				"region": "us-west-2",
+				"accessKey": "123456789",
+				"secretKey": "123456789"
+			}
+		}
+	}
+>>>>>>> 4d93c8a...  - Added configmap
