@@ -133,6 +133,7 @@ def connectMysqlDB():
                          user=MYSQL_USER,         # your username
                          passwd=MYSQL_PWD)  # your password
 
+    db.ping(True)
     cur = db.cursor()
 
     cur.execute("CREATE DATABASE IF NOT EXISTS testdb")

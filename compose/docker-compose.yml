@@ -1,0 +1,42 @@
+version: '2'
+services:
+    http-server:
+        image: "harshals/http_server"
+        ports:
+         - "9000:9000"
+        hostname: http-server
+    mysql:
+        image: "mysql/mysql-server"
+        ports:
+         - "3306:3306"
+        hostname: mysql
+        environment:
+         - "MYSQL_ALLOW_EMPTY_PASSWORD=yes"
+         - "MYSQL_ROOT_HOST=%"
+    redis:
+        image: "redis"
+        ports:
+         - "6379:6379"
+        hostname: redis
+    thrift-server:
+        image: "harshals/thrift_server"
+        ports:
+         - "9090:9090"
+        hostname: thrift-server
+    client:
+        image: "harshals/netsil_client"
+        environment:
+         - "DEMO_APP_HOST=http-server"
+         - "MYSQL_HOST=mysql"
+         - "REDIS_HOST=redis"
+         - "THRIFT_SERVER=thrift-server"
+        command: >
+           /bin/bash -c "
+           while ! nc -z mysql 3306;
+           do
+             echo sleeping;
+             sleep 1;
+            done;
+            echo Connected!;
+            python client.py
+           "
