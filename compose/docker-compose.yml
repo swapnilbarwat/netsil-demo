@@ -12,6 +12,7 @@ services:
         hostname: mysql-server
         environment:
          - "MYSQL_ALLOW_EMPTY_PASSWORD=yes"
+        command: "/bin/bash -c sleep 5; nc -lk 0.0.0.0 3306"
     redis:
         image: "redis"
         ports:
@@ -29,8 +30,7 @@ services:
          - "MYSQL_HOST=mysql-server"
          - "REDIS_HOST=redis-service"
          - "THRIFT_SERVER=thrift-server"
-        depends_on:
-         - "http-server"
-         - "mysql"
-         - "redis"
-         - "thrift-server"
+        command: 'nc -vz web 3306'
+        command: 'nc -vz web 9000'
+        command: 'nc -vz web 6379'
+        command: 'nc -vz web 9090'
