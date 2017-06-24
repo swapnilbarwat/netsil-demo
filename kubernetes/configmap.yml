@@ -1,7 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: request.json
+  name: http-error-workload
   namespace: default
 data:
   # example of a complex property defined using --from-file
