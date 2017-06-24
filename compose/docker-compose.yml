@@ -9,7 +9,7 @@ services:
         image: "mysql/mysql-server"
         ports:
          - "3306:3306"
-        hostname: mysql-server
+        hostname: mysql
         environment:
          - "MYSQL_ALLOW_EMPTY_PASSWORD=yes"
     redis:
@@ -26,12 +26,12 @@ services:
         image: "harshals/netsil_client"
         environment:
          - "DEMO_APP_HOST=http-server"
-         - "MYSQL_HOST=mysql-server"
+         - "MYSQL_HOST=mysql"
          - "REDIS_HOST=redis-service"
          - "THRIFT_SERVER=thrift-server"
         command: >
            /bin/bash -c "
-           while ! nc -z mysql-server 3306;
+           while ! nc -z mysql 3306;
            do
              echo sleeping;
              sleep 1;
