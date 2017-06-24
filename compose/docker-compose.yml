@@ -1,29 +1,29 @@
 version: '2'
 services:
-	http-server:
-		image: "harshals/http_server"
-		ports:
-		 - "9000:9000"
-		hostname: http-server
-	mysql:
-		image: "mysql/mysql-server"
-		ports:
-		 - "3306:3306"
-		hostname: mysql-server
-	redis:
-		image: "redis"
-		ports:
-		 - "6379:6379"
-		hostname: redis-service
-	thrift-server:
-		images:"harshals/thrift_server"
-		ports:
-		 - "9090:9090"
-		hostname: thrift-server
-	client:
-		image: "harshals/netsil_client"
-		ports:
-		 - "80:80"
+    http-server:
+        image: "harshals/http_server"
+        ports:
+         - "9000:9000"
+        hostname: http-server
+    mysql:
+        image: "mysql/mysql-server"
+        ports:
+         - "3306:3306"
+        hostname: mysql-server
+    redis:
+        image: "redis"
+        ports:
+         - "6379:6379"
+        hostname: redis-service
+    thrift-server:
+        images:"harshals/thrift_server"
+        ports:
+         - "9090:9090"
+        hostname: thrift-server
+    client:
+        image: "harshals/netsil_client"
+        ports:
+         - "80:80"
          - "9000:9000"
          - "3306:3306"
          - "6379:6379"
