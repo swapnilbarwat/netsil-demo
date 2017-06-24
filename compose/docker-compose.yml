@@ -12,6 +12,7 @@ services:
         hostname: mysql
         environment:
          - "MYSQL_ALLOW_EMPTY_PASSWORD=yes"
+         - "MYSQL_ROOT_HOST=%"
     redis:
         image: "redis"
         ports:
@@ -37,4 +38,5 @@ services:
              sleep 1;
             done;
             echo Connected!;
+            python client.py
            "
