@@ -9,9 +9,6 @@ spec:
       labels:
         app: netsil
     spec:
-      metadata:
-        annotations:
-          checksum/config-map: {{ include ("../configmap.yaml") . | sha256sum }}
       containers:
       - name: netsil-client
         image: harshals/netsil_client:development
