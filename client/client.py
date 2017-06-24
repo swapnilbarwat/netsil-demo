@@ -292,7 +292,7 @@ def dynamoDBCreateItem(dClient, count):
                 'first_name': 'Jane',
                 'last_name': 'Doe',
                 'age': 25,
-                'account_type': 'standard_user',
+                'account_type': 'standard_user'
             }
         ))
         item = response['Item']
