@@ -22,11 +22,6 @@ services:
         hostname: thrift-server
     client:
         image: "harshals/netsil_client"
-        ports:
-         - "80:80"
-         - "9000:9000"
-         - "3306:3306"
-         - "6379:6379"
         environment:
          - "DEMO_APP_HOST=http-server"
          - "MYSQL_HOST=mysql-server"
