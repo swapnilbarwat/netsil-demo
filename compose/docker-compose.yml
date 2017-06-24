@@ -16,7 +16,7 @@ services:
          - "6379:6379"
         hostname: redis-service
     thrift-server:
-        images: "harshals/thrift_server"
+        image: "harshals/thrift_server"
         ports:
          - "9090:9090"
         hostname: thrift-server
