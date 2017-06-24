@@ -10,6 +10,8 @@ services:
         ports:
          - "3306:3306"
         hostname: mysql-server
+        environment:
+         - "MYSQL_ALLOW_EMPTY_PASSWORD=yes"
     redis:
         image: "redis"
         ports:
