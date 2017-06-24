@@ -2,6 +2,7 @@
 FROM python:2.7
 # Install dependencies
 RUN apt-get clean && apt-get update
+RUN apt-get install netcat -y
 RUN pip install tornado
 RUN pip install redis
 RUN pip install MySQL-python
