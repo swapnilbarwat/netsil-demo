@@ -30,7 +30,7 @@ services:
          - "REDIS_HOST=redis-service"
          - "THRIFT_SERVER=thrift-server"
         depends_on:
-         - http-server
-         - mysql
-         - redis
-         - thrift-server
+         - "http-server"
+         - "mysql"
+         - "redis"
+         - "thrift-server"
