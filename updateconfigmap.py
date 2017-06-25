@@ -21,5 +21,5 @@ deployFile['spec']['replicas'] = originalReplicaCount
 with  open(filename,"w") as f:
 	yaml.dump(deployFile, f)
 
-print("Scaling down to original value" + str(originalReplicaCount))
+print("Scaling down to original value " + str(originalReplicaCount))
 os.system("kubectl apply -f " + filename)
