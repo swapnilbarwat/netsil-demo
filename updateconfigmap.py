@@ -8,7 +8,7 @@ configmap = os.path.join(dir, 'kubernetes/configmap.yml')
 
 os.system("kubectl replace  -f " + configmap)
 stream = open(filename, "w")
-deployFile = yaml.load_all(stream)
+deployFile = yaml.load(stream)
 originalReplicaCount= deployFile["spec"]["replicas"]
 deployFile['spec']['replicas'] = 0
 with  open(filename,"w") as f:
