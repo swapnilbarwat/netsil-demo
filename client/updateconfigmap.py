@@ -5,7 +5,7 @@ import yaml
 dir = os.path.dirname(__file__)
 filename = os.path.join(dir, '../kubeernetes/deployments/client.yml')
 
-os.system("kubectl replace configmap http-error-workload --from-file requests.json")
+os.system("kubectl update configmap http-error-workload --from-file requests.json")
 stream = open(filename, "w")
 deployFile = yaml.load_all(stream)
 originalReplicaCount= deployFile["spec"]["replicas"]
