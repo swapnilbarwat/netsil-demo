@@ -4,7 +4,7 @@ import yaml
 
 dir = os.path.dirname(__file__)
 filename = os.path.join(dir, '../kubeernetes/deployments/client.yml')
-configmap = os.path(dir, '../kubeernetes/configmap.yml')
+configmap = os.path.join(dir, '../kubeernetes/configmap.yml')
 
 os.system("kubectl replace  -f " + configmap)
 stream = open(filename, "w")
