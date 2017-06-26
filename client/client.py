@@ -236,6 +236,9 @@ def dyanamoDB():
     dynamoDBReadItem(dynamodb,recordCount)
 
 def dynamoDBCreateTable(dClient):
+    response = dClient.delete_table(
+        TableName='users'
+    )
     table = dClient.create_table(
         TableName='users',
         KeySchema=[
