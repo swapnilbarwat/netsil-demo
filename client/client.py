@@ -266,11 +266,11 @@ def dynamoDBCreateTable(dClient):
                 'WriteCapacityUnits': 5
             }
     )
-        # Wait until the table exists.
-    table.meta.client.get_waiter('table_exists').wait(TableName='users')
+    # Wait until the table exists.
+    # table.meta.client.get_waiter('table_exists').wait(TableName='users')
     
     # Print out some data about the table.
-    print(table.item_count)
+    # print(table.item_count)
 
 def dynamoDBCreateItem(dClient, count):
     table = dClient.Table('users')
