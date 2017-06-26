@@ -295,7 +295,6 @@ def dynamoDBCreateItem(isAWS, count, region,accessKeyId,secretKeyId):
     for i in range(count):
         username="johndoe"+str(i)
         last_name="doe"+str(i)
-        response = table.get_item(
         table.put_item(
            Item={
                 'username': username,
@@ -304,9 +303,9 @@ def dynamoDBCreateItem(isAWS, count, region,accessKeyId,secretKeyId):
                 'age': 25,
                 'account_type': 'standard_user'
             }
-        ))
-        item = response['Item']
-        print(item)
+        )
+        # item = response['Item']
+        # print(item)
 
 def dynamoDBReadItem(isAWS,count, region,accessKeyId,secretKeyId):
     if(isAWS):
