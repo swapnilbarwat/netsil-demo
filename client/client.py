@@ -318,13 +318,18 @@ def dynamoDBReadItem(isAWS,count, region,accessKeyId,secretKeyId):
         dClient = boto3.resource('dynamodb',endpoint_url=DYNAMODB_HOST_URL,region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
     table = dClient.Table('users')
     for i in range(count):
-        response = table.get_item(
-        Key={
-            'username': 'janedoe'+str(i),
-            'last_name': 'doe'+str(i)
-        }
+        response = dClient.get_item(
+            TableName="users"
+            Key={
+                'username': {
+                    'S': 'janedoe'+str(i)
+                },
+                'last_name': {
+                    'S': 'last_name': 'doe'+str(i)
+                }
+            }
         )
-        item = response['Item']
+        item = response['Items']
         print(item)
 
 def main():
