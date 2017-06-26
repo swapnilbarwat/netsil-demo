@@ -325,7 +325,7 @@ def dynamoDBReadItem(isAWS,count, region,accessKeyId,secretKeyId):
                     'S': 'janedoe'+str(i)
                 },
                 'last_name': {
-                    'S': 'last_name': 'doe'+str(i)
+                    'S': 'doe'+str(i)
                 }
             }
         )
