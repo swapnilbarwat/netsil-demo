@@ -320,8 +320,8 @@ def dynamoDBReadItem(isAWS,count, region,accessKeyId,secretKeyId):
     for i in range(count):
         response = table.get_item(
         Key={
-            'username': 'janedoe-'+str(i),
-            'last_name': 'Doe-'+str(i)
+            'username': 'janedoe'+str(i),
+            'last_name': 'doe'+str(i)
         }
         )
         item = response['Item']
