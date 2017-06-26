@@ -256,8 +256,8 @@ def dynamoDBCreateTable(isAWS,region,accessKeyId,secretKeyId):
                     'KeyType': 'HASH'
                 },
                 {
-                'AttributeName': 'last_name',
-                'KeyType': 'RANGE'
+                    'AttributeName': 'last_name',
+                    'KeyType': 'RANGE'
                 }
             ],
             AttributeDefinitions=[
@@ -293,12 +293,14 @@ def dynamoDBCreateItem(isAWS, count, region,accessKeyId,secretKeyId):
 
     table = dClient.Table('users')
     for i in range(count):
+        username="johndoe"+str(i)
+        last_name="doe"+str(i)
         response = table.get_item(
         table.put_item(
            Item={
-                'username': 'janedoe',
+                'username': username,
                 'first_name': 'Jane',
-                'last_name': 'Doe',
+                'last_name': last_name,
                 'age': 25,
                 'account_type': 'standard_user'
             }
