@@ -236,18 +236,9 @@ def dyanamoDB():
     dynamoDBReadItem(dynamodb,recordCount)
 
 def dynamoDBCreateTable(dClient):
-    isTableExist=False
-    try:
-        table = dClient.Table('users')
-        isTableExist=True
-    except ClientError as ce:
-            print (str(e))
-            isTableExist=False
-
-    if(isTableExist == False):
     # Create the DynamoDB table.
-        table = dClient.create_table(
-            TableName='users',
+    table = dClient.create_table(
+        TableName='users',
             KeySchema=[
                 {
                     'AttributeName': 'username',
@@ -273,14 +264,12 @@ def dynamoDBCreateTable(dClient):
                 'ReadCapacityUnits': 5,
                 'WriteCapacityUnits': 5
             }
-        )
-        # Wait until the table exists.
-        table.meta.client.get_waiter('table_exists').wait(TableName='users')
+    )
+    # Wait until the table exists.
+    table.meta.client.get_waiter('table_exists').wait(TableName='users')
 
-        # Print out some data about the table.
-        print(table.item_count)
-    else:
-        print("Table already present. Skipping..")
+    # Print out some data about the table.
+    print(table.item_count)
 
 def dynamoDBCreateItem(dClient, count):
     table = dClient.Table('users')
