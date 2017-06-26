@@ -8,7 +8,7 @@ usage()
 	exit 1;
 }
 
-while getopts ":s:p:" o; do
+while getopts ":f:" o; do
     case "${o}" in
         f)
             f=${OPTARG}
@@ -20,17 +20,19 @@ while getopts ":s:p:" o; do
 done
 shift $((OPTIND-1))
 
+echo $f
 if [ -z "${f}" ]; then
     usage
 fi
 
 kubectl replace  -f $f
-if [ $OUT -eq 0 ];then
+if [ $? -eq 0 ]; then
 	REPLICA=$(grep -A3 'spec:' $CLIENT_YML | head -n2 | grep -A2 'replicas:' | cut -d':' -f2)
 	echo "deleting old deployment.."
 	kubectl scale deploy/netsil-client --replicas=0
 	echo "creating new deployment.."
-	kubectl scale deploy/netsil-client --replicas=$REPLICA	
+	kubectl scale deploy/netsil-client --replicas=$((REPLICA))
 	echo "configmap updated successfully."
 else
 	echo "something went wrong.."
+fi
