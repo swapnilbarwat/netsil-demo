@@ -236,37 +236,61 @@ def dyanamoDB():
     dynamoDBReadItem(dynamodb,recordCount)
 
 def dynamoDBCreateTable(dClient):
+    isTableExist=False
     # Create the DynamoDB table.
-    table = dClient.create_table(
-        TableName='users',
-            KeySchema=[
-                {
-                    'AttributeName': 'username',
-                    'KeyType': 'HASH'
-                },
-                {
-                    'AttributeName': 'last_name',
-                    'KeyType': 'RANGE'
-                }
-            ],
-            AttributeDefinitions=[
-                {
-                    'AttributeName': 'username',
-                    'AttributeType': 'S'
-                },
-                {
-                    'AttributeName': 'last_name',
-                    'AttributeType': 'S'
-                },
-
-            ],
-            ProvisionedThroughput={
-                'ReadCapacityUnits': 5,
-                'WriteCapacityUnits': 5
-            }
+    response = dClient.list_tables(
+       ExclusiveStartTableName='users',
+       Limit=1
     )
-    # Wait until the table exists.
-    table.meta.client.get_waiter('table_exists').wait(TableName='users')
+    if("users" in response.values()):
+        isTableExist=True
+    else:
+        isTableExist=False
+    if(isTableExist == False):
+        table = dClient.create_table(
+            TableName='users',
+                KeySchema=[
+                    {
+                        'AttributeName': 'username',
+                        'KeyType': 'HASH'
+                    },
+                    {
+                        'AttributeName': 'last_name',
+                        'KeyType': 'RANGE'
+                    }
+                ],
+                AttributeDefinitions=[
+                    {
+                        'AttributeName': 'username',
+                        'AttributeType': 'S'
+                    },
+                    {
+                        'AttributeName': 'last_name',
+                        'AttributeType': 'S'
+                    },
+                    {
+                        'AttributeName': 'first_name',
+                        'AttributeType': 'S'
+                    },
+                    {
+                        'AttributeName': 'age',
+                        'AttributeType': 'N'
+                    },
+                    {
+                        'AttributeName': 'account_type',
+                        'AttributeType': 'S'
+                    }
+
+                ],
+                ProvisionedThroughput={
+                    'ReadCapacityUnits': 5,
+                    'WriteCapacityUnits': 5
+                }
+        )
+        # Wait until the table exists.
+        table.meta.client.get_waiter('table_exists').wait(TableName='users')
+    else:
+        print("table exist. Skipping...")
 
     # Print out some data about the table.
     print(table.item_count)
