@@ -322,10 +322,10 @@ def dynamoDBReadItem(isAWS,count, region,accessKeyId,secretKeyId):
             TableName="users",
             Key={
                 'username': {
-                    'S': 'janedoe'+str(i)
+                    'S': str('janedoe'+str(i))
                 },
                 'last_name': {
-                    'S': 'doe'+str(i)
+                    'S': str('doe'+str(i))
                 }
             }
         )
