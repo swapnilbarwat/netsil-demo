@@ -231,11 +231,11 @@ def dyanamoDB():
     #      # Get the service resource.
     #     dynamodb = boto3.client('dynamodb',endpoint_url=DYNAMODB_HOST_URL,region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
 
-    dynamoDBCreateTable(isAWS)
-    dynamoDBCreateItem(isAWS,recordCount)
-    dynamoDBReadItem(isAWS,recordCount)
+    dynamoDBCreateTable(isAWS,region)
+    dynamoDBCreateItem(isAWS,recordCount,region)
+    dynamoDBReadItem(isAWS,recordCount,region)
 
-def dynamoDBCreateTable(isAWS):
+def dynamoDBCreateTable(isAWS,region):
     if(isAWS):
         # Get the service resource.
         dClient = boto3.client('dynamodb',region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
@@ -281,7 +281,7 @@ def dynamoDBCreateTable(isAWS):
     # Print out some data about the table.
     # print(table.item_count)
 
-def dynamoDBCreateItem(isAWS, count):
+def dynamoDBCreateItem(isAWS, count, region):
     if(isAWS):
         # Get the service resource.
         dClient = boto3.resource('dynamodb',region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
@@ -307,7 +307,7 @@ def dynamoDBCreateItem(isAWS, count):
         item = response['Item']
         print(item)
 
-def dynamoDBReadItem(isAWS,count):
+def dynamoDBReadItem(isAWS,count, region):
     if(isAWS):
         # Get the service resource.
         dClient = boto3.resource('dynamodb',region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
