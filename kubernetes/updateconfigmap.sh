@@ -12,6 +12,7 @@ while getopts ":s:p:" o; do
     case "${o}" in
         f)
             f=${OPTARG}
+            ;;
         *)
             usage
             ;;
