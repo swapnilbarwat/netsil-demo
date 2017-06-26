@@ -245,9 +245,9 @@ def dynamoDBCreateTable(isAWS,region,accessKeyId,secretKeyId):
          # Get the service resource.
         dClient = boto3.client('dynamodb',endpoint_url=DYNAMODB_HOST_URL,region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
     
-    response = dClient.delete_table(
-        TableName='users'
-    )
+    # response = dClient.delete_table(
+    #     TableName='users'
+    # )
     table = dClient.create_table(
         TableName='users',
         KeySchema=[
@@ -325,7 +325,7 @@ def dynamoDBReadItem(isAWS,count, region,accessKeyId,secretKeyId):
                 'last_name': str('doe'+str(i))
                 }
         )
-        item = response['Items']
+        item = response['Item']
         print(item)
 
 def main():
@@ -341,9 +341,9 @@ def main():
         print("Calling thrift cleint")
         # thriftClient()
         print("Calling dynamodb")
-        dyanamoDB()
         print("Waiting for 5 sec...")
         time.sleep(5)
 
 if __name__ == "__main__":
-    main()
+    dyanamoDB()
+    # main()
