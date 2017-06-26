@@ -319,7 +319,7 @@ def dynamoDBReadItem(isAWS,count, region,accessKeyId,secretKeyId):
     table = dClient.Table('users')
     for i in range(count):
         response = dClient.get_item(
-            TableName="users"
+            TableName="users",
             Key={
                 'username': {
                     'S': 'janedoe'+str(i)
