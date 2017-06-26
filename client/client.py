@@ -267,18 +267,6 @@ def dynamoDBCreateTable(dClient):
                     {
                         'AttributeName': 'last_name',
                         'AttributeType': 'S'
-                    },
-                    {
-                        'AttributeName': 'first_name',
-                        'AttributeType': 'S'
-                    },
-                    {
-                        'AttributeName': 'age',
-                        'AttributeType': 'N'
-                    },
-                    {
-                        'AttributeName': 'account_type',
-                        'AttributeType': 'S'
                     }
 
                 ],
