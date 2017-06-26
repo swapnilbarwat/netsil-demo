@@ -224,12 +224,12 @@ def dyanamoDB():
     secretKeyId=data['dynamodb']['AWS']['secretKey']
     if(isAWS):
         # Get the service resource.
-        dynamodb = boto3.resource('dynamodb',region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
+        dynamodb = boto3.client('dynamodb',region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
         #create table
         print("Creating dynamodb table")
     else:
          # Get the service resource.
-        dynamodb = boto3.resource('dynamodb',endpoint_url=DYNAMODB_HOST_URL,region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
+        dynamodb = boto3.client('dynamodb',endpoint_url=DYNAMODB_HOST_URL,region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
 
     dynamoDBCreateTable(dynamodb)
     dynamoDBCreateItem(dynamodb,recordCount)
