@@ -333,7 +333,7 @@ def dynamoDBReadItem(isAWS,count, region,accessKeyId,secretKeyId):
 
 def postgres():
     try:
-      conn = psycopg2.connect("user='postgres' host=" + POSTGRES_HOST " password='mysecretpassword'")
+      conn = psycopg2.connect("user='postgres' host=" + POSTGRES_HOST + " password='mysecretpassword'")
     except Exception as e:
       print (str(e))
       print "I am unable to connect to the database"
