@@ -367,7 +367,7 @@ def postgres():
                 if("INSERT" in query):
                     cur.execute("Select count(*) from employee")
                     result=cur.fetchone()
-                    print("total records" + result)
+                    print("total records" + str(result))
                     #no of records does not match with count in json then keep on inserting.
                     if(result >= int(count)):
                         print("skipping insert query..")
