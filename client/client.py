@@ -371,7 +371,7 @@ def postgres():
                     result=cur.fetchone()
                     print(result)
                     #no of records does not match with count in json then keep on inserting.
-                    if(result == int(count)):
+                    if(result >= int(count)):
                         isInsertdone=True
                     else:
                         print(query)
@@ -384,7 +384,6 @@ def postgres():
                     for row in cur:
                         print(row)
     cur.close()
-    conn.commit()
     conn.close()
 
 def main():
