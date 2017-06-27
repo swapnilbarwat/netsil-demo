@@ -1,7 +1,7 @@
 version: '2'
 services:
     http-server:
-        image: "harshals/http_server"
+        image: "harshals/http_server:development"
         ports:
          - "9000:9000"
         hostname: http-server
