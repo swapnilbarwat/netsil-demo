@@ -339,6 +339,7 @@ def postgres():
       print "I am unable to connect to the database"
 
     cur = conn.cursor()
+    cur.execute("SET AUTOCOMMIT = ON")
     cur.execute("SELECT 1 FROM pg_database WHERE datname = 'employee'")
     records = cur.fetchall()
     if(len(records) == 0):
