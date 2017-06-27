@@ -389,16 +389,16 @@ def main():
     isInsertdone=False
     while(1):
         print("Calling http client")
-        # async_client(False)
+        async_client(False)
         print("Calling https client")
-        # async_client(True)
+        async_client(True)
         print("Calling mysql client")
-        # connectMysqlDB()
+        connectMysqlDB()
         print("calling redis client")
-        # redisClient()
+        redisClient()
         print("Calling thrift cleint")
-        # thriftClient()
-        print("Calling dynamodb")
+        thriftClient()
+        # print("Calling dynamodb")
         # dyanamoDB()
         print("calling postgres")
         postgres()
@@ -406,5 +406,4 @@ def main():
         time.sleep(5)
 
 if __name__ == "__main__":
-    # dyanamoDB()
     main()
