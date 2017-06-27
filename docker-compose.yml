@@ -26,7 +26,7 @@ services:
     client:
         image: "harshals/netsil_client"
         volumes:
-         - ./client/requests.json:/config/requests.json
+         - ./client:/config
         environment:
          - "DEMO_APP_HOST=http-server"
          - "MYSQL_HOST=mysql"
