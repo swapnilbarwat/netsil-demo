@@ -363,7 +363,7 @@ def postgres():
             count=command['count']
             for i in range(int(count)):
                 #if query is insert and already not run
-                if((query.find("insert"))):
+                if((query.find("INSERT"))):
                     cur.execute("Select count(*) from employee")
                     result=cur.fetchone()
                     print(result)
