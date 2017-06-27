@@ -341,7 +341,9 @@ def postgres():
     cur = conn.cursor()
     cur.execute("SELECT 1 FROM pg_database WHERE datname = 'employee'")
     records = cur.fetchall()
-    cur.execute("CREATE DATABASE IF NOT EXISTS testdb")
+    if(len(records) == 0):
+       cur.execute("CREATE DATABASE testdb")
+    
     cur.execute("use testdb")
     cur.execute("DROP TABLE IF EXISTS employee")
     cur.execute("CREATE TABLE employee (id INT(6) NOT NULL AUTO_INCREMENT, fname VARCHAR(30), lname VARCHAR(30), PRIMARY KEY (id))")
