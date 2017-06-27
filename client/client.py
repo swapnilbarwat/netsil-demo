@@ -351,7 +351,7 @@ def postgres():
 
     conn = psycopg2.connect("dbname=testdb user='postgres' host=" + POSTGRES_HOST + " password='mysecretpassword'")
     cur = conn.cursor()
-    cur.execute("SELECT 1 FROM pg_catalog.pg_tables WHERE  schemaname = 'testdb' AND tablename  = 'employee'")
+    cur.execute("SELECT 1 FROM pg_catalog.pg_tables WHERE tablename  = 'employee'")
     tableCount=cur.fetchall()
     if(len(tableCount) == 0):
        cur.execute("CREATE TABLE employee (id SERIAL PRIMARY KEY NOT NULL, fname CHAR(30), lname CHAR(30))")
