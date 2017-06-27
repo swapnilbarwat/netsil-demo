@@ -378,9 +378,9 @@ def postgres():
                 else:
                     print("from else " + query)
                     cur.execute(query)
-                    row=cur.fetchall()
-                    for row in cur:
-                        print(row)
+                    rows=cur.fetchall()
+                    for row in rows:
+                        print(row[0])
     cur.close()
     conn.close()
 
