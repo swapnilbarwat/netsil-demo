@@ -349,7 +349,7 @@ def postgres():
     cur.close()
     conn.close()
 
-    conn = psycopg2.connect("database=testdb user='postgres' host=" + POSTGRES_HOST + " password='mysecretpassword'")
+    conn = psycopg2.connect("dbname=testdb user='postgres' host=" + POSTGRES_HOST + " password='mysecretpassword'")
     cur = conn.cursor()
     cur.execute("DROP TABLE IF EXISTS employee")
     cur.execute("CREATE TABLE employee (id INT(6) NOT NULL AUTO_INCREMENT, fname VARCHAR(30), lname VARCHAR(30), PRIMARY KEY (id))")
