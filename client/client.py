@@ -34,6 +34,8 @@ from thrift.protocol import TBinaryProtocol
 import boto3
 from botocore.exceptions import ClientError
 
+import psycopg2
+
 
 DEMO_APP_HOST = os.getenv('DEMO_APP_HOST', '35.184.3.133')
 DEMO_APP_PORT = os.getenv('DEMO_APP_PORT', '9000')
@@ -48,6 +50,7 @@ THRIFT_SERVER = os.getenv("THRIFT_SERVER", "127.0.0.1")
 STATSD_SERVER = os.getenv("STATSD_SERVER", "127.0.0.1")
 DYNAMODB_HOST = os.getenv("DYNAMODB_HOST", "127.0.0.1")
 DYNAMODB_HOST_URL = "http://" + DYNAMODB_HOST + ":8000"
+POSTGRES_HOST = os.getenv("POSTGRES_HOST", "127.0.0.01")
 
 isInsertdone=False
 
@@ -328,6 +331,42 @@ def dynamoDBReadItem(isAWS,count, region,accessKeyId,secretKeyId):
         item = response['Item']
         print(item)
 
+def postgres():
+    try:
+      conn = psycopg2.connect("dbname='employee' user='postgres' host=POSTGRES_HOST password='mysecretpassword'")
+    except:
+      print "I am unable to connect to the database"
+    cur = conn.cursor()
+    cur.execute("CREATE DATABASE IF NOT EXISTS testdb")
+    cur.execute("use testdb")
+    cur.execute("DROP TABLE IF EXISTS employee")
+    cur.execute("CREATE TABLE employee (id INT(6) NOT NULL AUTO_INCREMENT, fname VARCHAR(30), lname VARCHAR(30), PRIMARY KEY (id))")
+
+    with open(DEMO_CONFIG_FILE) as f:
+        data=json.loads(f.read())
+        f.close()
+
+        for command in data['postgres']:
+            query=command['command']
+            count=command['count']
+            for i in range(int(count)):
+                #if query is insert and already not run
+                if((query.find("insert"))):
+                    cur.execute("Select count(*) from employee")
+                    result=cur.fetchone()
+                    #no of records does not match with count in json then keep on inserting.
+                    if(result == int(count)):
+                        isInsertdone=True
+                    else:
+                        cur.execute(query)
+                        for row in cur:
+                            print(row)
+                else:
+                    cur.execute(query)
+                    for row in cur:
+                        print(row)
+    con.close()
+
 def main():
     while(1):
         print("Calling http client")
@@ -341,9 +380,12 @@ def main():
         print("Calling thrift cleint")
         # thriftClient()
         print("Calling dynamodb")
+        # dyanamoDB()
+        print("calling postgres")
+        postgres()
         print("Waiting for 5 sec...")
         time.sleep(5)
 
 if __name__ == "__main__":
-    dyanamoDB()
-    # main()
+    # dyanamoDB()
+    main()

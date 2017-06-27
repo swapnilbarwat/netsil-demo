@@ -9,6 +9,16 @@
 			"count": "100"
 		}
 	],
+	"postgres": [
+	   {
+	   	  "command": "INSERT INTO employee (fname, lname) VALUES ('first name', 'last name')",
+	   	  "count": "100"
+	   },
+	   {
+	   	  "command": "select * from employee",
+	   	  "count": "100"
+	   }
+	],
 	"http":[
 	{
 		"success": {
