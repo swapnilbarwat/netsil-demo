@@ -385,6 +385,7 @@ def postgres():
     conn.close()
 
 def main():
+    global isInsertdone
     isInsertdone=False
     while(1):
         print("Calling http client")
