@@ -350,6 +350,7 @@ def postgres():
     conn.close()
 
     conn = psycopg2.connect("dbname=testdb user='postgres' host=" + POSTGRES_HOST + " password='mysecretpassword'")
+    conn.autocommit = True
     cur = conn.cursor()
     cur.execute("SELECT 1 FROM pg_catalog.pg_tables WHERE tablename  = 'employee'")
     tableCount=cur.fetchall()
