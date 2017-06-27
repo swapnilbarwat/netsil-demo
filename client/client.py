@@ -35,6 +35,7 @@ import boto3
 from botocore.exceptions import ClientError
 
 import psycopg2
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 
 DEMO_APP_HOST = os.getenv('DEMO_APP_HOST', '35.184.3.133')
