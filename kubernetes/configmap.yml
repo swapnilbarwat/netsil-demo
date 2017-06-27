@@ -29,11 +29,11 @@ data:
                 },
                 {
                     "http_code": "304",
-                    "count": "30"
+                    "count": "3"
                 },
                 {
                     "http_code": "305",
-                    "count": "40"
+                    "count": "4"
                 }
             ]
         }
