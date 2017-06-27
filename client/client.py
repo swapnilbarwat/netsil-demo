@@ -364,7 +364,7 @@ def postgres():
             count=command['count']
             for i in range(int(count)):
                 #if query is insert and already not run
-                if(("INSERT" in query) and (isInsertdone == True)):
+                if("INSERT" in query):
                     cur.execute("Select count(*) from employee")
                     result=cur.fetchone()
                     print(result)
@@ -372,9 +372,12 @@ def postgres():
                     if(result >= int(count)):
                         isInsertdone=True
                     else:
-                        print(query)
-                        cur.execute(query)
-                        conn.commit()
+                        if(isInsertdone == True):
+                            print(query)
+                            cur.execute(query)
+                            conn.commit()
+                        else:
+                            print("insert is done. skipping..")
                 else:
                     print("from else " + query)
                     cur.execute(query)
