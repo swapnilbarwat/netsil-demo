@@ -370,6 +370,7 @@ def postgres():
                     if(result == int(count)):
                         isInsertdone=True
                     else:
+                        print(query)
                         cur.execute(query)
                         row=cur.fetchall()
                         for row in cur:
