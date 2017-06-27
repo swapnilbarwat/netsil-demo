@@ -53,6 +53,7 @@ DYNAMODB_HOST = os.getenv("DYNAMODB_HOST", "127.0.0.1")
 DYNAMODB_HOST_URL = "http://" + DYNAMODB_HOST + ":8000"
 POSTGRES_HOST = os.getenv("POSTGRES_HOST", "127.0.0.01")
 
+global isInsertdone
 isInsertdone=False
 
 #need to pod name as prefix
