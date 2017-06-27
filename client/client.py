@@ -372,7 +372,7 @@ def postgres():
                     if(result >= int(count)):
                         isInsertdone=True
                     else:
-                        if(isInsertdone == True):
+                        if(isInsertdone == False):
                             print(query)
                             cur.execute(query)
                             conn.commit()
