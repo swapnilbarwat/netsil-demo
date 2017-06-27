@@ -9,6 +9,7 @@ RUN pip install MySQL-python
 RUN pip install thrift
 RUN pip install statsd
 RUN pip install psycopg2
+RUN pip install boto3
 RUN mkdir -p /usr/local/client && cd /usr/local/client
 ENV TERM=xterm
 ENV DEMO_APP_HOST='localhost'
