@@ -352,7 +352,7 @@ def postgres():
     conn = psycopg2.connect("dbname=testdb user='postgres' host=" + POSTGRES_HOST + " password='mysecretpassword'")
     cur = conn.cursor()
     cur.execute("DROP TABLE IF EXISTS employee")
-    cur.execute("CREATE TABLE employee (id INT(6) NOT NULL AUTO_INCREMENT, fname VARCHAR(30), lname VARCHAR(30), PRIMARY KEY (id))")
+    cur.execute("CREATE TABLE employee (id INT NOT NULL SERIAL, fname CHAR(30), lname CHAR(30), PRIMARY KEY (id))")
 
     with open(DEMO_CONFIG_FILE) as f:
         data=json.loads(f.read())
