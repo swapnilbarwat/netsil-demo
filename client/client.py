@@ -346,7 +346,11 @@ def postgres():
     if(len(records) == 0):
        cur.execute("CREATE DATABASE testdb")
     
-    cur.execute("use testdb")
+    cur.close()
+    con.close()
+    
+    conn = psycopg2.connect("database=testdb user='postgres' host=" + POSTGRES_HOST + " password='mysecretpassword'")
+    cur = conn.cursor()
     cur.execute("DROP TABLE IF EXISTS employee")
     cur.execute("CREATE TABLE employee (id INT(6) NOT NULL AUTO_INCREMENT, fname VARCHAR(30), lname VARCHAR(30), PRIMARY KEY (id))")
 
