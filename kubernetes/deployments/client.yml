@@ -25,6 +25,8 @@ spec:
           value: "mysql-server"
         - name: REDIS_HOST
           value: "redis-service"
+        - name: "POSTGRES_HOST"
+          value: "postgres-server"
         - name: THRIFT_SERVER
           value: "thrift-server"
         - name: DYNAMODB_HOST
