@@ -380,7 +380,7 @@ def postgres():
                     cur.execute(query)
                     rows=cur.fetchall()
                     for row in rows:
-                        print(row[0])
+                        print("id: " + str(row[0]) + "fname: " +  str(row[1]) + "lname: " + str(row[2]))
     cur.close()
     conn.close()
 
