@@ -371,6 +371,7 @@ def postgres():
                         isInsertdone=True
                     else:
                         cur.execute(query)
+                        row=cur.fetchall()
                         for row in cur:
                             print(row)
                 else:
