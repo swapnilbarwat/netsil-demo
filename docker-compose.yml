@@ -23,6 +23,11 @@ services:
         ports:
          - "9090:9090"
         hostname: thrift-server
+    postgres:
+        image: "postgres"
+        ports:
+        - "5432":"5432"
+        hostname: postgres
     client:
         image: "harshals/netsil_client"
         volumes:
@@ -32,6 +37,7 @@ services:
          - "MYSQL_HOST=mysql"
          - "REDIS_HOST=redis"
          - "THRIFT_SERVER=thrift-server"
+         - "POSTGRES_HOST=postgres"
         command: >
            /bin/bash -c "
            while ! nc -z mysql 3306;
