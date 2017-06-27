@@ -347,6 +347,7 @@ def postgres():
        cur.execute("CREATE DATABASE testdb")
     
     cur.close()
+    conn.commit()
     conn.close()
 
     conn = psycopg2.connect("dbname=testdb user='postgres' host=" + POSTGRES_HOST + " password='mysecretpassword'")
