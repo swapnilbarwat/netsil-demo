@@ -376,12 +376,14 @@ def postgres():
                     else:
                         print(query)
                         cur.execute(query)
+                        conn.commit()
                 else:
                     print("from else " + query)
                     cur.execute(query)
                     row=cur.fetchall()
                     for row in cur:
                         print(row)
+    cur.close()
     conn.commit()
     conn.close()
 
