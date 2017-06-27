@@ -341,14 +341,14 @@ def postgres():
 
     conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
     cur = conn.cursor()
-    cur.execute("SELECT 1 FROM pg_database WHERE datname = 'employee'")
+    cur.execute("SELECT 1 FROM pg_database WHERE datname = 'testdb'")
     records = cur.fetchall()
     if(len(records) == 0):
        cur.execute("CREATE DATABASE testdb")
     
     cur.close()
     con.close()
-    
+
     conn = psycopg2.connect("database=testdb user='postgres' host=" + POSTGRES_HOST + " password='mysecretpassword'")
     cur = conn.cursor()
     cur.execute("DROP TABLE IF EXISTS employee")
