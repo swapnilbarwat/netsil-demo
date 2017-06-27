@@ -370,14 +370,11 @@ def postgres():
                     print(result)
                     #no of records does not match with count in json then keep on inserting.
                     if(result >= int(count)):
-                        isInsertdone=True
+                        print("skipping insert query..")
                     else:
-                        if(isInsertdone == False):
-                            print(query)
-                            cur.execute(query)
-                            conn.commit()
-                        else:
-                            print("insert is done. skipping..")
+                        print(query)
+                        cur.execute(query)
+                        conn.commit()
                 else:
                     print("from else " + query)
                     cur.execute(query)
