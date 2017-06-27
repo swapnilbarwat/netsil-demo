@@ -26,10 +26,10 @@ services:
     postgres:
         image: "postgres"
         ports:
-        - "5432":"5432"
+        - "5432:5432"
         hostname: postgres
     client:
-        image: "harshals/netsil_client"
+        image: "harshals/netsil_client:development"
         volumes:
          - /client/requests.json:/config/requests.json
         environment:
