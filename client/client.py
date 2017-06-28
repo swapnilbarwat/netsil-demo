@@ -63,6 +63,8 @@ CASSANDRA_HOST = os.getenv("CASSANDRA_HOST", "127.0.0.1")
 #need to pod name as prefix
 statsObj = statsd.StatsClient(host=STATSD_SERVER, prefix=None, port=8125)
 
+isCassandraKeyExist=False
+
 def async_client(isHttps):
     try:
         http_client = HTTPClient()
@@ -424,8 +426,9 @@ def cassandra():
     for key in cluster.metadata.keyspaces:
         if(key == "employee"):
             print("key found..")
-            isKeyExist=True
-    if(isKeyExist == False):
+            global isCassandraKeyExist
+            isCassandraKeyExist=True
+    if(isCassandraKeyExist == False):
         session.execute("CREATE KEYSPACE employee WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};")
         session.execute('USE employee')
         session.execute("CREATE TABLE employee id int PRIMARY KEY, fname text, lname text")
@@ -454,10 +457,8 @@ def cassandra():
         log.exception("Query timed out:")
 
 def main():
-    global isInsertdone
-    isInsertdone=False
-    global isKeyExist
-    isKeyExist=False
+    global isCassandraKeyExist
+    isCassandraKeyExist=False
     while(1):
         print("Calling http client")
         # async_client(False)
