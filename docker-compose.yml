@@ -50,6 +50,7 @@ services:
          - "THRIFT_SERVER=thrift-server"
          - "POSTGRES_HOST=postgres"
          - "MEMCACHED_HOST=memcached"
+         - "CASSANDRA_HOST=cassandra"
         command: >
            /bin/bash -c "
            while ! nc -z mysql 3306;
