@@ -449,8 +449,8 @@ def cassandra():
     future = session.execute_async("SELECT * FROM employee")
     try:
         rows = future.result()
-        employee = rows[0]
-        print employee.fname, employee.lname
+        for row in rows:
+            print row.id, row.fname, row.lname
     except ReadTimeout:
         log.exception("Query timed out:")
 
