@@ -387,9 +387,7 @@ def postgres():
     conn.close()
 
 def memcached():
-    mc = pylibmc.Client(MEMCACHED_URL, binary=True,
-                         behaviors={"tcp_nodelay": True,
-                        "ketama": True})
+    mc = pylibmc.Client(MEMCACHED_URL)
 
     with open(DEMO_CONFIG_FILE) as f:
         data=json.loads(f.read())
