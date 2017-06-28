@@ -403,7 +403,7 @@ def memcached():
          print("added key - " + mc[key+str(i)])
 
     print("deleting key/value from memcached")
-    for i int range(int(count)):
+    for i in range(int(count)):
         del mc[key+str(i)]
         print("deleting " + key+str(i))
 
