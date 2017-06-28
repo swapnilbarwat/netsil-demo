@@ -52,6 +52,6 @@
 	"memcached": {
 		"count": "100",
 		"key": "anykey",
-		"valye": "anyvalue"
+		"value": "anyvalue"
 	}
 }
