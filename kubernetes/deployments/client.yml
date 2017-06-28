@@ -33,6 +33,8 @@ spec:
           value: "dynamodb"
         - name: MEMCACHED_HOST
           value: "memcached-server"
+        - name: CASSANDRA_HOST
+          value: "cassandra-server"
         - name: DEMO_CONFIG_FILE
           value: "/config/requests.json"
         volumeMounts:
