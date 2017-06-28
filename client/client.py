@@ -418,7 +418,12 @@ def memcached():
 def cassandra():
     cluster = Cluster([CASSANDRA_HOST])
     session = cluster.connect()
-    session.execute("CREATE KEYSPACE employee WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};")
+    for key in cluster.metadata.keyspaces:
+        if(key == "employee"):
+            isKeyExist=True
+    if(isKeyExist == False):
+        session.execute("CREATE KEYSPACE employee WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};")
+    
     session.execute('USE employee')
     with open(DEMO_CONFIG_FILE) as f:
         data=json.loads(f.read())
@@ -445,6 +450,8 @@ def cassandra():
 def main():
     global isInsertdone
     isInsertdone=False
+    global isKeyExist
+    isKeyExist=False
     while(1):
         print("Calling http client")
         # async_client(False)
