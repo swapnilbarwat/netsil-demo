@@ -446,8 +446,7 @@ def cassandra():
           {'id': str(uuid.uuid4()), 'fname': "first name", 'lname': 'last name'}
         )
     print("reading queries from cassandra")
-    session.execute("SELECT * FROM employee")
-    future = session.execute_async(query, [user_id])
+    future = session.execute_async("SELECT * FROM employee")
     try:
         rows = future.result()
         employee = rows[0]
