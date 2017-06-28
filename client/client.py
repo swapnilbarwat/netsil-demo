@@ -462,7 +462,7 @@ def main():
         # postgres()
         print("calling memcached")
         # memcached()
-        pritn("calling cassandra")
+        print("calling cassandra")
         cassandra()
         print("Waiting for 5 sec...")
         time.sleep(5)
