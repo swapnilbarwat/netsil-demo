@@ -13,4 +13,4 @@ spec:
       - name: cassandra
         image: cassandra
         ports:
-        - containerPort: 7000
+        - containerPort: 9042
