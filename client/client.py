@@ -424,7 +424,7 @@ def cassandra():
         data=json.loads(f.read())
         f.close()
     count=data['cassandra']['count']
-    for i in int(count):
+    for i in range(int(count)):
         session.execute(
           """
           INSERT INTO employee (id, fname, lname)
