@@ -436,10 +436,10 @@ def cassandra():
     for i in range(int(count)):
         session.execute(
           """
-          INSERT INTO employee.employee (id, fname, lname)
-          VALUES (%s, %s, %s)
+          INSERT INTO users (id, fname,lname)
+          VALUES (%(id)s, %(fname)s, %(lname)s)
           """,
-          (str(uuid.uuid4()), "First Name", "Last Name")
+          ('id': uuid.uuid4(), 'fname': "first name", 'lname': 'last name')
         )
     print("reading queries from cassandra")
     session.execute("SELECT * FROM employee")
