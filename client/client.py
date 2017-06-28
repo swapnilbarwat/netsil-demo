@@ -443,7 +443,7 @@ def cassandra():
           INSERT INTO employee (id, fname,lname)
           VALUES (%(id)s, %(fname)s, %(lname)s)
           """,
-          {'id': uuid.uuid4(), 'fname': "first name", 'lname': 'last name'}
+          {'id': str(uuid.uuid4()), 'fname': "first name", 'lname': 'last name'}
         )
     print("reading queries from cassandra")
     session.execute("SELECT * FROM employee")
