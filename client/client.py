@@ -436,7 +436,7 @@ def cassandra():
     for i in range(int(count)):
         session.execute(
           """
-          INSERT INTO users (id, fname,lname)
+          INSERT INTO employee (id, fname,lname)
           VALUES (%(id)s, %(fname)s, %(lname)s)
           """,
           {'id': uuid.uuid4(), 'fname': "first name", 'lname': 'last name'}
