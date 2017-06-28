@@ -420,8 +420,10 @@ def memcached():
 def cassandra():
     cluster = Cluster([CASSANDRA_HOST])
     session = cluster.connect()
+    session.default_timeout = 30
     for key in cluster.metadata.keyspaces:
         if(key == "employee"):
+            print("key found..")
             isKeyExist=True
     if(isKeyExist == False):
         session.execute("CREATE KEYSPACE employee WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};")
@@ -437,7 +439,7 @@ def cassandra():
           INSERT INTO employee.employee (id, fname, lname)
           VALUES (%s, %s, %s)
           """,
-          (str(i), "First Name", "Last Name")
+          (str(uuid.uuid4()), "First Name", "Last Name")
         )
     print("reading queries from cassandra")
     session.execute("SELECT * FROM employee")
