@@ -432,7 +432,7 @@ def cassandra():
         session.execute("CREATE KEYSPACE employee WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};")        
     
     session.execute('USE employee')
-    session.execute("CREATE TABLE IF NOT EXISTS employee (id int PRIMARY KEY, fname text, lname text)")
+    session.execute("CREATE TABLE IF NOT EXISTS employee (id varchar PRIMARY KEY, fname text, lname text)")
     with open(DEMO_CONFIG_FILE) as f:
         data=json.loads(f.read())
         f.close()
