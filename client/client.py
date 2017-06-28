@@ -53,6 +53,7 @@ DYNAMODB_HOST = os.getenv("DYNAMODB_HOST", "127.0.0.1")
 DYNAMODB_HOST_URL = "http://" + DYNAMODB_HOST + ":8000"
 POSTGRES_HOST = os.getenv("POSTGRES_HOST", "127.0.0.1")
 MEMCACHED_HOST = os.getenv("MEMCACHED_HOST", "127.0.0.1")
+MEMCACHED_URL = MEMCACHED_HOST + ":11211"
 
 #need to pod name as prefix
 statsObj = statsd.StatsClient(host=STATSD_SERVER, prefix=None, port=8125)
@@ -386,7 +387,7 @@ def postgres():
     conn.close()
 
 def memcached():
-    mc = pylibmc.Client(MEMCACHED_HOST, binary=True,
+    mc = pylibmc.Client(MEMCACHED_URL, binary=True,
                          behaviors={"tcp_nodelay": True,
                         "ketama": True})
 
