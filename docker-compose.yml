@@ -55,9 +55,15 @@ services:
            /bin/bash -c "
            while ! nc -z mysql 3306;
            do
-             echo sleeping;
+             echo sleeping to mysql;
              sleep 1;
             done;
             echo Connected!;
+            while ! nc -z cassandra 9042;
+            do
+             echo sleeping;
+             sleep 1;
+            done;
+            echo Connected to cassandra!;
             python client.py
            "
