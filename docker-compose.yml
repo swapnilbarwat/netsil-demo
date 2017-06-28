@@ -4,6 +4,7 @@ services:
         image: "harshals/http_server:development"
         ports:
          - "9000:9000"
+         - "443:443"
         hostname: http-server
     mysql:
         image: "mysql/mysql-server"
@@ -28,6 +29,11 @@ services:
         ports:
         - "5432:5432"
         hostname: postgres
+    memcached:
+        image: memcached
+        ports:
+        - "11211:11211"
+        hostname: memcached
     client:
         image: "harshals/netsil_client:development"
         volumes:
@@ -38,6 +44,7 @@ services:
          - "REDIS_HOST=redis"
          - "THRIFT_SERVER=thrift-server"
          - "POSTGRES_HOST=postgres"
+         - "MEMCACHED_HOST=memcached"
         command: >
            /bin/bash -c "
            while ! nc -z mysql 3306;

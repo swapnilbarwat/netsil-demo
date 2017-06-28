@@ -48,5 +48,10 @@
 			"accessKey": "123456789",
 			"secretKey": "123456789"
 		}
+	},
+	"memcached": {
+		"count": "100",
+		"key": "anykey",
+		"valye": "anyvalue"
 	}
 }

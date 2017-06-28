@@ -36,6 +36,7 @@ from botocore.exceptions import ClientError
 
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+import pylibmc
 
 
 DEMO_APP_HOST = os.getenv('DEMO_APP_HOST', '35.184.3.133')
@@ -51,7 +52,8 @@ THRIFT_SERVER = os.getenv("THRIFT_SERVER", "127.0.0.1")
 STATSD_SERVER = os.getenv("STATSD_SERVER", "127.0.0.1")
 DYNAMODB_HOST = os.getenv("DYNAMODB_HOST", "127.0.0.1")
 DYNAMODB_HOST_URL = "http://" + DYNAMODB_HOST + ":8000"
-POSTGRES_HOST = os.getenv("POSTGRES_HOST", "127.0.0.01")
+POSTGRES_HOST = os.getenv("POSTGRES_HOST", "127.0.0.1")
+MEMCACHED_HOST = os.getenv("MEMCACHED_HOST", "127.0.0.1")
 
 #need to pod name as prefix
 statsObj = statsd.StatsClient(host=STATSD_SERVER, prefix=None, port=8125)
@@ -384,6 +386,27 @@ def postgres():
     cur.close()
     conn.close()
 
+def memcached():
+    mc = pylibmc.Client(MEMCACHED_HOST, binary=True,
+                         behaviors={"tcp_nodelay": True,
+                        "ketama": True})
+
+    with open(DEMO_CONFIG_FILE) as f:
+        data=json.loads(f.read())
+        f.close()
+
+    key=data['memcached']['key']
+    value=data['memcached']['value']
+    count=data['memcached']['count']
+    for i in range(int(count)):
+         mc[key+str(i)] = value+str(i)
+         print("added key - " + mc[key+str(i)])
+
+    print("deleting key/value from memcached")
+    for i int range(int(count)):
+        del mc[key+str(i)]
+        print("deleting " + key+str(i))
+
 def main():
     global isInsertdone
     isInsertdone=False
@@ -402,6 +425,8 @@ def main():
         # dyanamoDB()
         print("calling postgres")
         postgres()
+        print("calling memcached")
+        memcached()
         print("Waiting for 5 sec...")
         time.sleep(5)
 

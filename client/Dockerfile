@@ -10,6 +10,8 @@ RUN pip install thrift
 RUN pip install statsd
 RUN pip install psycopg2
 RUN pip install boto3
+RUN apt-get install libmemcached-dev
+RUN pip install pylibmc
 RUN mkdir -p /usr/local/client && cd /usr/local/client
 ENV TERM=xterm
 ENV DEMO_APP_HOST='localhost'

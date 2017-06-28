@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: memcached-server
+  name: memcached-server
+spec:
+  type: ExternalName
+  externalName: memcached.netsil.io
+  ports:
+    # The port that this service should serve on.
+    - port: 11211
+  # Label keys and values that must match in order to receive traffic for this service.
+  selector:
+    app: memcached
+  type: LoadBalancer
