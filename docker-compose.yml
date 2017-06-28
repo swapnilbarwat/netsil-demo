@@ -55,10 +55,10 @@ services:
            /bin/bash -c "
            while ! nc -z mysql 3306;
            do
-             echo sleeping to mysql;
+             echo sleeping;
              sleep 1;
             done;
-            echo Connected!;
+            echo Connected to mysql!;
             while ! nc -z cassandra 9042;
             do
              echo sleeping;
