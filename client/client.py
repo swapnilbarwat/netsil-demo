@@ -387,7 +387,7 @@ def postgres():
 
 def memcached():
     try:
-        mc = pylibmc.Client(MEMCACHED_HOST)
+        mc = pylibmc.Client([MEMCACHED_HOST], binary=True, behaviors={"tcp_nodelay": True, "ketama": True})
     except Exception as e:
         print (str(e))
 
