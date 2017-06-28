@@ -10,6 +10,7 @@ RUN pip install thrift
 RUN pip install statsd
 RUN pip install psycopg2
 RUN pip install boto3
+RUN pip install cassandra-driver
 RUN apt-get install libmemcached-dev -y
 RUN pip install pylibmc
 RUN mkdir -p /usr/local/client && cd /usr/local/client

@@ -38,6 +38,9 @@ import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 import pylibmc
 
+from cassandra.cluster import Cluster
+from cassandra import ReadTimeout
+
 DEMO_APP_HOST = os.getenv('DEMO_APP_HOST', '35.184.3.133')
 DEMO_APP_PORT = os.getenv('DEMO_APP_PORT', '9000')
 DEMO_CONFIG_FILE = os.getenv('DEMO_CONFIG_FILE', 'requests.json')
@@ -53,6 +56,7 @@ DYNAMODB_HOST = os.getenv("DYNAMODB_HOST", "127.0.0.1")
 DYNAMODB_HOST_URL = "http://" + DYNAMODB_HOST + ":8000"
 POSTGRES_HOST = os.getenv("POSTGRES_HOST", "127.0.0.1")
 MEMCACHED_HOST = os.getenv("MEMCACHED_HOST", "127.0.0.1")
+CASSANDRA_HOST = os.getenv("CASSANDRA_HOST", "127.0.0.1")
 
 #need to pod name as prefix
 statsObj = statsd.StatsClient(host=STATSD_SERVER, prefix=None, port=8125)
@@ -410,6 +414,34 @@ def memcached():
         del mc[key+str(i)]
         print("deleting " + key+str(i))
 
+
+def cassandra():
+    cluster = Cluster([CASSANDRA_HOST])
+    session = cluster.connect()
+    session.execute("CREATE  KEYSPACE IF NOT EXISTS employee")
+    session.execute('USE employee')
+    with open(DEMO_CONFIG_FILE) as f:
+        data=json.loads(f.read())
+        f.close()
+    count=data['cassandra']['count']
+    for i in int(count):
+        session.execute(
+          """
+          INSERT INTO employee (id, fname, lname)
+          VALUES (%s, %s, %s)
+          """,
+          (uuid.uuid1(), "First Name", "Last Name")
+        )
+    print("reading queries from cassandra")
+    session.execute("SELECT * FROM employee")
+    future = session.execute_async(query, [user_id])
+    try:
+        rows = future.result()
+        employee = rows[0]
+        print employee.fname, employee.lname
+    except ReadTimeout:
+        log.exception("Query timed out:")
+
 def main():
     global isInsertdone
     isInsertdone=False
@@ -429,7 +461,9 @@ def main():
         print("calling postgres")
         # postgres()
         print("calling memcached")
-        memcached()
+        # memcached()
+        pritn("calling cassandra")
+        cassandra()
         print("Waiting for 5 sec...")
         time.sleep(5)
 

@@ -53,5 +53,8 @@
 		"count": "100",
 		"key": "anykey",
 		"value": "anyvalue"
+	},
+	"cassandra": {
+		"count": "100"
 	}
 }
