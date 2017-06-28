@@ -40,6 +40,7 @@ import pylibmc
 
 from cassandra.cluster import Cluster
 from cassandra import ReadTimeout
+import uuid
 from uuid import uuid4
 
 DEMO_APP_HOST = os.getenv('DEMO_APP_HOST', '35.184.3.133')
@@ -436,7 +437,7 @@ def cassandra():
           INSERT INTO employee (id, fname, lname)
           VALUES (%s, %s, %s)
           """,
-          (uuid.uuid4(), "First Name", "Last Name")
+          (str(uuid.uuid4()), "First Name", "Last Name")
         )
     print("reading queries from cassandra")
     session.execute("SELECT * FROM employee")
