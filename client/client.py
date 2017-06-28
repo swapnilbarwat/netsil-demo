@@ -387,7 +387,10 @@ def postgres():
     conn.close()
 
 def memcached():
-    mc = pylibmc.Client(MEMCACHED_URL)
+    try:
+        mc = pylibmc.Client(MEMCACHED_URL)
+    except Exception as e:
+        print (str(e))
 
     with open(DEMO_CONFIG_FILE) as f:
         data=json.loads(f.read())
@@ -397,8 +400,11 @@ def memcached():
     value=data['memcached']['value']
     count=data['memcached']['count']
     for i in range(int(count)):
-         mc[key+str(i)] = value+str(i)
-         print("added key - " + mc[key+str(i)])
+        try:
+            mc[key+str(i)] = value+str(i)
+            print("added key - " + mc[key+str(i)])
+        except Exception as e:
+            print (str(e))
 
     print("deleting key/value from memcached")
     for i in range(int(count)):
