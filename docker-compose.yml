@@ -39,6 +39,11 @@ services:
         ports:
         - "9042:9042"
         hostname: cassandra
+    dynamodb:
+        image: deangiberson/aws-dynamodb-local
+        ports:
+        - "8000:8000"
+        hostname: dynamodb
     client:
         image: "harshals/netsil_client:development"
         volumes:
@@ -51,6 +56,7 @@ services:
          - "POSTGRES_HOST=postgres"
          - "MEMCACHED_HOST=memcached"
          - "CASSANDRA_HOST=cassandra"
+         - "DYNAMODB_HOST=dynamodb"
         command: >
            /bin/bash -c "
            while ! nc -z mysql 3306;
