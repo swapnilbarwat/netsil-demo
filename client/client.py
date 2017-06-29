@@ -247,6 +247,7 @@ def dyanamoDB():
     dynamoDBReadItem(isAWS,recordCount,region,accessKeyId,secretKeyId)
 
 def dynamoDBCreateTable(isAWS,region,accessKeyId,secretKeyId):
+    isDynamodTableExist=False
     if(isAWS):
         # Get the service resource.
         dClient = boto3.client('dynamodb',region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
@@ -255,42 +256,42 @@ def dynamoDBCreateTable(isAWS,region,accessKeyId,secretKeyId):
          # Get the service resource.
         dClient = boto3.client('dynamodb',endpoint_url=DYNAMODB_HOST_URL,region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
     
-    response = dClient.delete_table(
-        TableName='users'
-    )
-    print("Creating dynamodb table")
-    table = dClient.create_table(
-        TableName='users',
-        KeySchema=[
-                {
-                    'AttributeName': 'username',
-                    'KeyType': 'HASH'
-                },
-                {
-                    'AttributeName': 'last_name',
-                    'KeyType': 'RANGE'
+    try:
+        tableStatus=dClient.describe_table('users')
+    except ResourceNotFoundException as e:
+        print(e)
+        isDynamodTableExist=True
+    if(isDynamodTableExist == False):
+        print("Creating dynamodb table")
+        table = dClient.create_table(
+            TableName='users',
+            KeySchema=[
+                    {
+                        'AttributeName': 'username',
+                        'KeyType': 'HASH'
+                    },
+                    {
+                        'AttributeName': 'last_name',
+                        'KeyType': 'RANGE'
+                    }
+                ],
+                AttributeDefinitions=[
+                    {
+                       'AttributeName': 'username',
+                       'AttributeType': 'S'
+                    },
+                    {
+                       'AttributeName': 'last_name',
+                       'AttributeType': 'S'
+                    }
+                ],
+                ProvisionedThroughput={
+                    'ReadCapacityUnits': 5,
+                    'WriteCapacityUnits': 5
                 }
-            ],
-            AttributeDefinitions=[
-                {
-                   'AttributeName': 'username',
-                   'AttributeType': 'S'
-                },
-                {
-                   'AttributeName': 'last_name',
-                   'AttributeType': 'S'
-                }
-            ],
-            ProvisionedThroughput={
-                'ReadCapacityUnits': 5,
-                'WriteCapacityUnits': 5
-            }
-    )
-    # Wait until the table exists.
-    # table.meta.client.get_waiter('table_exists').wait(TableName='users')
-    
-    # Print out some data about the table.
-    # print(table.item_count)
+        )
+    else:
+        print("table exist...skipping")
 
 def dynamoDBCreateItem(isAWS, count, region,accessKeyId,secretKeyId):
     if(isAWS):
