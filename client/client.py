@@ -251,7 +251,6 @@ def dynamoDBCreateTable(isAWS,region,accessKeyId,secretKeyId):
         # Get the service resource.
         dClient = boto3.client('dynamodb',region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
         #create table
-        print("Creating dynamodb table")
     else:
          # Get the service resource.
         dClient = boto3.client('dynamodb',endpoint_url=DYNAMODB_HOST_URL,region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
@@ -259,6 +258,7 @@ def dynamoDBCreateTable(isAWS,region,accessKeyId,secretKeyId):
     # response = dClient.delete_table(
     #     TableName='users'
     # )
+    print("Creating dynamodb table")
     table = dClient.create_table(
         TableName='users',
         KeySchema=[

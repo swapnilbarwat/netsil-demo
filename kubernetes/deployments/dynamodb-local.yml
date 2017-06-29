@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: dynamodb
-        image: peopleperhour/dynamodb
+        image: deangiberson/aws-dynamodb-local
         ports:
         - containerPort: 8000
           name: shell
