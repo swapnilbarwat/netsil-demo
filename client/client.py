@@ -258,7 +258,7 @@ def dynamoDBCreateTable(isAWS,region,accessKeyId,secretKeyId):
     
     try:
         tableStatus=dClient.describe_table('users')
-    except ClientError as e::
+    except ClientError as e:
         print(e)
         if e.response['Error']['Code'] == 'ResourceNotFoundException':
             isDynamodTableExist=True
