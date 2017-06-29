@@ -330,7 +330,7 @@ def dynamoDBReadItem(isAWS,count, region,accessKeyId,secretKeyId):
     table = dClient.Table('users')
 
     data=table.scan(ConsistentRead=True)
-    items = all_admins['Items']
+    items = data['Items']
     for x in items:
         print "dynamodb-"  + str(x['username'])
 
