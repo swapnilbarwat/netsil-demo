@@ -257,7 +257,9 @@ def dynamoDBCreateTable(isAWS,region,accessKeyId,secretKeyId):
         dClient = boto3.client('dynamodb',endpoint_url=DYNAMODB_HOST_URL,region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
     
     try:
-        tableStatus=dClient.describe_table('users')
+        tableStatus=dClient.describe_table(
+            TableName='users'
+        )
     except ClientError as e:
         print(e)
         if e.response['Error']['Code'] == 'ResourceNotFoundException':
