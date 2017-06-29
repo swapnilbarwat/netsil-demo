@@ -247,7 +247,7 @@ def dyanamoDB():
     dynamoDBReadItem(isAWS,recordCount,region,accessKeyId,secretKeyId)
 
 def dynamoDBCreateTable(isAWS,region,accessKeyId,secretKeyId):
-    isDynamodTableExist=False
+    isDynamodTableExist=True
     if(isAWS):
         # Get the service resource.
         dClient = boto3.client('dynamodb',region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
@@ -263,7 +263,7 @@ def dynamoDBCreateTable(isAWS,region,accessKeyId,secretKeyId):
     except ClientError as e:
         print(e)
         if e.response['Error']['Code'] == 'ResourceNotFoundException':
-            isDynamodTableExist=True
+            isDynamodTableExist=False
     if(isDynamodTableExist == False):
         print("Creating dynamodb table")
         table = dClient.create_table(
