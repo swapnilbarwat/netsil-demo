@@ -97,7 +97,8 @@ class PostgresHandler(tornado.web.RequestHandler):
                 conn = psycopg2.connect("user='wrongpostgresuser' host=" + POSTGRES_HOST + " password='mywrongsecretpassword'")
             except Exception as e:
                 print "I am unable to connect to the database"
-                self.set_status(e.errno)
+                print(e)
+                self.set_status(500)
                 self.finish()
 
 # class MysqlHandler(tornado.web.RequestHandler):
