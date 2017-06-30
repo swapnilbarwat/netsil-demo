@@ -44,6 +44,11 @@ services:
         ports:
         - "8000:8000"
         hostname: dynamodb
+    intermediate-server:
+        image: harshals/intermediate_server:development
+        ports:
+        - "9010:9010"
+        hostname: "intermediate-http-server"
     client:
         image: "harshals/netsil_client:development"
         volumes:
@@ -57,6 +62,7 @@ services:
          - "MEMCACHED_HOST=memcached"
          - "CASSANDRA_HOST=cassandra"
          - "DYNAMODB_HOST=dynamodb"
+         - "DEMO_APP_INTERMEDIATE_HOST=intermediate-http-server"
         command: >
            /bin/bash -c "
            while ! nc -z mysql 3306;
