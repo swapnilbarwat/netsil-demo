@@ -11,4 +11,4 @@ WORKDIR /usr/local/k8s_microsim/
 ENV DEMO_APP_PORT=9010
 ENV TERM=xterm
 
-python server.py
+CMD python server.py
