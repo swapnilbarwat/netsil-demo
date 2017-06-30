@@ -43,6 +43,7 @@ class PostgresHandler(tornado.web.RequestHandler):
     def post(self):
         print ("POST ==> calling PostgresHandler")
         requestData=Data(self.request.body)
+        headers = {'Content-Type': 'application/json'}
         try:
             http_client = HTTPClient()
             API_URL=DEMO_APP_URL + DEMO_APP_PORT + "/intermediatecallpostgres"
