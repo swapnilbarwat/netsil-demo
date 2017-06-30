@@ -64,8 +64,7 @@ class Application(tornado.web.Application):
                     (r"/testservice", MainHandler),
                     (r"/callhttp", HttpHandler),
                     (r"/intermediatecallpostgres", PostgresHandler),
-                    (r"/intermediatecallmysql", MysqlHandler),
-                    (r"/intermediatecallbusiness", BusinessHandler),
+                    # (r"/intermediatecallbusiness", BusinessHandler),
                     (r".*",   MainHandler),
                     ]
             
