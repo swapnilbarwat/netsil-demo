@@ -57,7 +57,7 @@
 	"cassandra": {
 		"count": "100"
 	},
-	"intermdiate": {
+	"intermediate": {
 		"postgres": {
 			"success": "100",
 			"failure": "100"
