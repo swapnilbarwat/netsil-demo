@@ -59,6 +59,9 @@ DYNAMODB_HOST_URL = "http://" + DYNAMODB_HOST + ":8000"
 POSTGRES_HOST = os.getenv("POSTGRES_HOST", "127.0.0.1")
 MEMCACHED_HOST = os.getenv("MEMCACHED_HOST", "127.0.0.1")
 CASSANDRA_HOST = os.getenv("CASSANDRA_HOST", "127.0.0.1")
+DEMO_APP_INTERMEDIATE_HOST = os.getenv("DEMO_APP_INTERMEDIATE_HOST", "127.0.0.1")
+DEMO_APP_INTERMEDIATE_PORT = os.getenv("DEMO_APP_INTERMEDIATE_PORT", "127.0.0.1")
+DEMO_APP_INTERMEDIATE_URL = "http://" + DEMO_APP_INTERMEDIATE_HOST + ":" + DEMO_APP_INTERMEDIATE_PORT
 
 #need to pod name as prefix
 statsObj = statsd.StatsClient(host=STATSD_SERVER, prefix=None, port=8125)
@@ -453,28 +456,51 @@ def cassandra():
     except ReadTimeout:
         log.exception("Query timed out:")
 
+def intermediateHttpServer():
+    try:
+        http_client = HTTPClient()
+        # http_client = tornado.httpclient.AsyncHTTPClient(
+    except Exception as e:
+        #print(traceback.format_exc())
+        print ( "Unable to create Client" + str(e))
+    DEMO_APP_INTERMEDIATE_API_URL = DEMO_APP_INTERMEDIATE_URL + "/callpostgres"
+    with open(DEMO_CONFIG_FILE) as f:
+        data=json.loads(f.read())
+        f.close()
+        req=data['intermediate']['dynamodb']
+        reqObJson = json.dumps(req.__dict__)
+        try:
+            http_request = HTTPRequest( DEMO_APP_INTERMEDIATE_API_URL,"POST",headers,body=reqObJson  )
+        except Exception as e:
+            print (str(e))
+            pass
+            
+        http_client.close()
+
 def main():
     global isCassandraKeyExist
     isCassandraKeyExist=False
     while(1):
-        print("Calling http client")
-        async_client(False)
-        print("Calling https client")
-        async_client(True)
-        print("Calling mysql client")
-        connectMysqlDB()
-        print("calling redis client")
-        redisClient()
-        print("Calling thrift cleint")
-        thriftClient()
-        print("Calling dynamodb")
-        dyanamoDB()
-        print("calling postgres")
-        postgres()
-        print("calling memcached")
-        memcached()
-        print("calling cassandra")
-        cassandra()
+        # print("Calling http client")
+        # async_client(False)
+        # print("Calling https client")
+        # async_client(True)
+        # print("Calling mysql client")
+        # connectMysqlDB()
+        # print("calling redis client")
+        # redisClient()
+        # print("Calling thrift cleint")
+        # thriftClient()
+        # print("Calling dynamodb")
+        # dyanamoDB()
+        # print("calling postgres")
+        # postgres()
+        # print("calling memcached")
+        # memcached()
+        # print("calling cassandra")
+        # cassandra()
+        print("calling intermediate http server")
+        intermediateHttpServer()
         print("Waiting for 5 sec...")
         time.sleep(5)
 

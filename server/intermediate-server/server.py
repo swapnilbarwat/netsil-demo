@@ -7,11 +7,21 @@ from tornado.httpclient import AsyncHTTPClient
 from tornado import gen
 from pprint import pprint
 
+from tornado.httpclient import HTTPRequest
+from tornado.httpclient import HTTPError
+from tornado.httpclient import HTTPClient
+
+from tornado.httpclient import AsyncHTTPClient
+
+import psycopg2
+
+DYNAMODB_HOST = os.getenv("DYNAMODB_HOST", "127.0.0.1")
+DYNAMODB_HOST_URL = "http://" + DYNAMODB_HOST + ":8000"
 
 # ENVIORNMENT VARAIBLES initialization
-
+DEMO_APP_INTERMEDIATE_PORT = os.getenv('DEMO_APP_PORT', '9010')
+DEMO_APP_URL = os.getnev('DEMO_APP_URL','127.0.0.1')
 DEMO_APP_PORT = os.getenv('DEMO_APP_PORT', '9000')
-POSTGRES_HOST = os.getenv("POSTGRES_HOST", "127.0.0.1")
 
 iniitalized = False
 
@@ -28,29 +38,42 @@ class Request():
         self.errors = errors
         self.success = success
 
-@gen.coroutine
-def makeResponse(data, request):
-    rCode=int(data.response_code)
-    request.set_status(rCode)
-
-    if (rCode == 200):
-        print("Sending 200")
-        request.write("Sucessful response: 200")
-        request.finish()
-    elif (rCode == 304):
-        print("Sending 304")
-        request.finish()
-    else:
-        print("error with code  " + str(rCode))
-        request.write(str(rCode))
-        request.finish()
-
-class HttpHandler(tornado.web.RequestHandler):
+class PostgresHandler(tornado.web.RequestHandler):
     @gen.coroutine
     def post(self):
-        print ("POST ==> calling HttpHandler")
+        print ("POST ==> calling PostgresHandler")
+        requestData=Data(self.request.body)
+        try:
+            http_client = HTTPClient()
+            API_URL=DEMO_APP_URL + DEMO_APP_PORT + "/intermediatecallpostgres"
+        except Exception as e:
+            print ( "Unable to create Client" + str(e))
+        try:
+            http_request = HTTPRequest( API_URL,"POST",headers,body=requestData)
+        except HTTPError as e:
+            print(HTTPError)
+            raise
+        else:
+            response = http_client.fetch(http_request)
+            responseJSON=json.dumps(response.__dict__)
+            self.write(responseJSON)
+
+        http_client.close()
+
+class MysqlHandler(tornado.web.RequestHandler):
+    @gen.coroutine
+    def post(self):
+        print ("POST ==> calling MysqlHandler")
         requestData=Data(self.request.body)
         makeResponse(requestData, self)
+
+class BusinessHandler(tornado.web.RequestHandler):
+    @gen.coroutine
+    def post(self):
+        print ("POST ==> calling BusinessHandler")
+        requestData=Data(self.request.body)
+        makeResponse(requestData, self)
+
 
 class Data(object):
     def __init__(self,data):
@@ -61,11 +84,8 @@ class Application(tornado.web.Application):
         
         # Handlers defining the url routing.
         handlers = [
-                    (r"/testservice", MainHandler),
-                    (r"/callhttp", HttpHandler),
-                    (r"/intermediatecallpostgres", PostgresHandler),
-                    (r"/intermediatecallmysql", MysqlHandler),
-                    (r"/intermediatecallbusiness", BusinessHandler),
+                    (r"/callpostgres", PostgresHandler),
+                    (r"/callbusiness", BusinessHandler),
                     (r".*",   MainHandler),
                     ]
             
@@ -83,28 +103,6 @@ class Application(tornado.web.Application):
                     # Call super constructor.
         tornado.web.Application.__init__(self, handlers, **settings)
 
-class PostgresHandler(tornado.web.RequestHandler):
-    @gen.coroutine
-    def post(self):
-        print ("POST ==> calling HttpHandler")
-        requestData=Data(self.request.body)
-        rSucessCount=int(data.success)
-        for i in count(rSucessCount):
-            request.set_status(200)
-
-        rExceptionCount=int(data.failure)
-        for i in count(rExceptionCount):
-            try:
-                conn = psycopg2.connect("user='wrongpostgresuser' host=" + POSTGRES_HOST + " password='mywrongsecretpassword'")
-            except Exception as e:
-                print "I am unable to connect to the database"
-                request.set_status(e.errno)
-                request.finish()
-
-# class MysqlHandler(tornado.web.RequestHandler):
-
-# class BusinessHandler(tornado.web.RequestHandler):
-
 
 def main():
     global iniitalized
@@ -117,7 +115,7 @@ def main():
     # configure()
     # allServices.printServices()
     iniitalized = True
-    app.listen(int(DEMO_APP_PORT))
+    app.listen(int(DEMO_APP_INTERMEDIATE_PORT))
     tornado.ioloop.IOLoop.current().start()
 
 
@@ -126,6 +124,10 @@ def cleanup():
     print ("\n======================================================")
     print ("                 Http server stopped                    ")
     print ("========================================================")
+    
+
+# def BusinessHttpClient():
+
 
 # allServices = Services()
 
