@@ -27,9 +27,9 @@ iniitalized = False
 
 class MainHandler(tornado.web.RequestHandler):
 	def get(self):
-		print ("NetSil Demo app http server")
+		print ("NetSil intermediate demo app http server")
         # Need default case if someone did not called valid API #TODO
-		self.write("NetSil Demo app http server")
+		self.write("NetSil intermediate demo app http server")
 
 class Request():
     def __init__(self, errors, success):
