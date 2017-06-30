@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: intermediate-http-service
+  name: intermediate-http-service
+spec:
+  type: ExternalName
+  externalName: intermediate.netsil.io
+  ports:
+    # The port that this service should serve on.
+    - name: http
+      protocol: TCP
+      port: 9010
+      targetPort: 9010
+  # Label keys and values that must match in order to receive traffic for this service.
+  selector:
+    app: intermediate-http-server
+  type: LoadBalancer

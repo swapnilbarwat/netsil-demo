@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: intermediate-http-server
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: intermediate-http-server
+    spec:
+      containers:
+      - name: intermediate-http-server
+        image: harshals/intermediate_server
+        ports:
+        - containerPort: 9010
+          name: http-port
