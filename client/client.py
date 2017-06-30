@@ -479,7 +479,7 @@ def intermediateHttpServer():
 
 class IntermediateRequest():
     def __init__(self,success,failure):
-        self.success=response_code
+        self.success=success
         self.failure=failure
 
 def main():
