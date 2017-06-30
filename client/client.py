@@ -471,6 +471,7 @@ def intermediateHttpServer():
         req=IntermediateRequest(data['intermediate']['postgres']['success'],data['intermediate']['postgres']['failure'])
         reqObJson = json.dumps(req.__dict__)
         headers = {'Content-Type': 'application/json'}
+        print(DEMO_APP_INTERMEDIATE_API_URL)
         try:
             http_request = HTTPRequest( DEMO_APP_INTERMEDIATE_API_URL,"POST",headers,body=reqObJson  )
         except Exception as e:
