@@ -7,6 +7,7 @@ from tornado.httpclient import AsyncHTTPClient
 from tornado import gen
 from pprint import pprint
 
+import psycopg2
 
 # ENVIORNMENT VARAIBLES initialization
 
@@ -99,7 +100,7 @@ class PostgresHandler(tornado.web.RequestHandler):
                 print "I am unable to connect to the database"
                 print(e)
                 self.set_status(500)
-                self.finish()
+                # self.finish()
 
 # class MysqlHandler(tornado.web.RequestHandler):
 
