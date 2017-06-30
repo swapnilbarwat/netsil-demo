@@ -46,6 +46,8 @@ class PostgresHandler(tornado.web.RequestHandler):
         requestData=Data(self.request.body)
         succesCount=requestData.success
         failCount=requestData.failure
+        print(succesCount)
+        print(failCount)
         for i in range(int(failCount)): 
             headers = {'Content-Type': 'application/json'}
             try:
