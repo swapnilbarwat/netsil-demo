@@ -87,11 +87,11 @@ class PostgresHandler(tornado.web.RequestHandler):
     def post(self):
         print ("POST ==> calling HttpHandler")
         requestData=Data(self.request.body)
-        rSucessCount=int(data.success)
+        rSucessCount=int(requestData.success)
         for i in count(rSucessCount):
             request.set_status(200)
 
-        rExceptionCount=int(data.failure)
+        rExceptionCount=int(requestData.failure)
         for i in count(rExceptionCount):
             try:
                 conn = psycopg2.connect("user='wrongpostgresuser' host=" + POSTGRES_HOST + " password='mywrongsecretpassword'")
