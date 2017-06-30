@@ -44,7 +44,6 @@ class PostgresHandler(tornado.web.RequestHandler):
     def post(self):
         print ("POST ==> calling PostgresHandler")
         requestData=Data(self.request.body)
-        print(requestData)
         headers = {'Content-Type': 'application/json'}
         try:
             http_client = HTTPClient()
@@ -52,7 +51,7 @@ class PostgresHandler(tornado.web.RequestHandler):
         except Exception as e:
             print ( "Unable to create Client" + str(e))
         try:
-            http_request = HTTPRequest(API_URL,"POST",headers,body=requestData)
+            http_request = HTTPRequest(API_URL,"POST",headers,body=self.request.body)
             http_client.fetch(http_request)
         except HTTPError as e:
             print(HTTPError)
