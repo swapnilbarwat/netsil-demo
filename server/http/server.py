@@ -64,7 +64,8 @@ class Application(tornado.web.Application):
         handlers = [
                     (r"/testservice", MainHandler),
                     (r"/callhttp", HttpHandler),
-                    (r"/intermediatecallpostgres", PostgresHandler),
+                    (r"/intermediatecallpostgresfail", PostgresFailHandler),
+                    (r"/intermediatecallpostgressuccess", PostgresSuccessHandler),
                     # (r"/intermediatecallbusiness", BusinessHandler),
                     (r".*",   MainHandler),
                     ]
@@ -83,28 +84,30 @@ class Application(tornado.web.Application):
                     # Call super constructor.
         tornado.web.Application.__init__(self, handlers, **settings)
 
-class PostgresHandler(tornado.web.RequestHandler):
+class PostgresFailHandler(tornado.web.RequestHandler):
     @gen.coroutine
     def post(self):
         print ("POST ==> calling HttpHandler")
         requestData=Data(self.request.body)
-        rSucessCount=int(requestData.success)
-        for i in range(rSucessCount):
+        try:
+            conn = psycopg2.connect("user='wrongpostgresuser' host=" + POSTGRES_HOST + " password='mywrongsecretpassword'")
+        except Exception as e:
+            print "I am unable to connect to the database"
+            print(e)
+            self.set_status(500)
+
+class PostgresSuccessHandler(tornado.web.RequestHandler):
+    @gen.coroutine
+    def post(self):
+        print ("POST ==> calling HttpHandler")
+        requestData=Data(self.request.body)
+        try:
+            conn = psycopg2.connect("user='postgres' host=" + POSTGRES_HOST + " password='mysecretpassword'")
             self.set_status(200)
-
-        rExceptionCount=int(requestData.failure)
-        for i in range(rExceptionCount):
-            try:
-                conn = psycopg2.connect("user='wrongpostgresuser' host=" + POSTGRES_HOST + " password='mywrongsecretpassword'")
-            except Exception as e:
-                print "I am unable to connect to the database"
-                print(e)
-                self.set_status(500)
-                # self.finish()
-
-# class MysqlHandler(tornado.web.RequestHandler):
-
-# class BusinessHandler(tornado.web.RequestHandler):
+        except Exception as e:
+            print "I am unable to connect to the database"
+            print(e)
+            self.set_status(500)
 
 
 def main():
