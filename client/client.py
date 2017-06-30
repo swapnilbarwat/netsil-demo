@@ -467,7 +467,7 @@ def intermediateHttpServer():
     with open(DEMO_CONFIG_FILE) as f:
         data=json.loads(f.read())
         f.close()
-        req=data['intermediate']['dynamodb']
+        req=data['intermediate']['postgres']
         reqObJson = json.dumps(req.__dict__)
         try:
             http_request = HTTPRequest( DEMO_APP_INTERMEDIATE_API_URL,"POST",headers,body=reqObJson  )
