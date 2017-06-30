@@ -46,11 +46,12 @@ class PostgresHandler(tornado.web.RequestHandler):
         headers = {'Content-Type': 'application/json'}
         try:
             http_client = HTTPClient()
-            API_URL=DEMO_APP_URL + DEMO_APP_PORT + "/intermediatecallpostgres"
+        API_URL=DEMO_APP_URL + DEMO_APP_PORT + "/intermediatecallpostgres"
         except Exception as e:
             print ( "Unable to create Client" + str(e))
         try:
             http_request = HTTPRequest( API_URL,"POST",headers,body=requestData)
+            http_client.fetch(http_request)
         except HTTPError as e:
             print(HTTPError)
             raise
