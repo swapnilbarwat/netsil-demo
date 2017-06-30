@@ -467,7 +467,7 @@ def intermediateHttpServer():
     with open(DEMO_CONFIG_FILE) as f:
         data=json.loads(f.read())
         f.close()
-        req=data['intermediate']['postgres']
+        req=IntermediateRequest(data['intermediate']['postgres']['success'],data['intermediate']['postgres']['failure'])
         reqObJson = json.dumps(req.__dict__)
         try:
             http_request = HTTPRequest( DEMO_APP_INTERMEDIATE_API_URL,"POST",headers,body=reqObJson  )
@@ -476,6 +476,11 @@ def intermediateHttpServer():
             pass
             
         http_client.close()
+
+class IntermediateRequest():
+    def __init__(self,success,failure):
+        self.success=response_code
+        self.failure=failure
 
 def main():
     global isCassandraKeyExist
