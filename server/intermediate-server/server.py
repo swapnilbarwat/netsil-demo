@@ -20,7 +20,7 @@ DYNAMODB_HOST_URL = "http://" + DYNAMODB_HOST + ":8000"
 
 # ENVIORNMENT VARAIBLES initialization
 DEMO_APP_INTERMEDIATE_PORT = os.getenv('DEMO_APP_PORT', '9010')
-DEMO_APP_URL = os.getnev('DEMO_APP_URL','127.0.0.1')
+DEMO_APP_URL = os.getenv('DEMO_APP_URL','127.0.0.1')
 DEMO_APP_PORT = os.getenv('DEMO_APP_PORT', '9000')
 
 iniitalized = False
