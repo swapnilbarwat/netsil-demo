@@ -20,8 +20,9 @@ DYNAMODB_HOST_URL = "http://" + DYNAMODB_HOST + ":8000"
 
 # ENVIORNMENT VARAIBLES initialization
 DEMO_APP_INTERMEDIATE_PORT = os.getenv('DEMO_APP_INTERMEDIATE_PORT', '9010')
-DEMO_APP_URL = os.getenv('DEMO_APP_URL','127.0.0.1')
+DEMO_APP_HOST = os.getenv('DEMO_APP_URL','127.0.0.1')
 DEMO_APP_PORT = os.getenv('DEMO_APP_PORT', '9000')
+DEMP_APP_URL = "http://" + DEMO_APP_HOST + ":" + DEMO_APP_PORT
 
 iniitalized = False
 
@@ -46,11 +47,11 @@ class PostgresHandler(tornado.web.RequestHandler):
         headers = {'Content-Type': 'application/json'}
         try:
             http_client = HTTPClient()
-            API_URL=DEMO_APP_URL + DEMO_APP_PORT + "/intermediatecallpostgres"
+            API_URL = DEMP_APP_URL + "/intermediatecallpostgres"
         except Exception as e:
             print ( "Unable to create Client" + str(e))
         try:
-            http_request = HTTPRequest( API_URL,"POST",headers,body=requestData)
+            http_request = HTTPRequest(API_URL,"POST",headers,body=requestData)
             http_client.fetch(http_request)
         except HTTPError as e:
             print(HTTPError)
