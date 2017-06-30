@@ -15,8 +15,6 @@ from tornado.httpclient import AsyncHTTPClient
 
 import psycopg2
 
-DYNAMODB_HOST_URL = "http://" + DYNAMODB_HOST + ":8000"
-
 # ENVIORNMENT VARAIBLES initialization
 DEMO_APP_INTERMEDIATE_PORT = os.getenv('DEMO_APP_INTERMEDIATE_PORT', '9010')
 DEMO_APP_HOST = os.getenv('DEMO_APP_URL','127.0.0.1')
