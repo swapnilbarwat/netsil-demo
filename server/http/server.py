@@ -89,7 +89,7 @@ class PostgresHandler(tornado.web.RequestHandler):
         requestData=Data(self.request.body)
         rSucessCount=int(requestData.success)
         for i in range(rSucessCount):
-            self.request.set_status(200)
+            self.set_status(200)
 
         rExceptionCount=int(requestData.failure)
         for i in range(rExceptionCount):
@@ -97,8 +97,8 @@ class PostgresHandler(tornado.web.RequestHandler):
                 conn = psycopg2.connect("user='wrongpostgresuser' host=" + POSTGRES_HOST + " password='mywrongsecretpassword'")
             except Exception as e:
                 print "I am unable to connect to the database"
-                self.request.set_status(e.errno)
-                self.request.finish()
+                self.set_status(e.errno)
+                self.finish()
 
 # class MysqlHandler(tornado.web.RequestHandler):
 
