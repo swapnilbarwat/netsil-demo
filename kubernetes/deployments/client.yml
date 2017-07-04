@@ -36,7 +36,7 @@ spec:
         - name: CASSANDRA_HOST
           value: "cassandra-server"
         - name: DEMO_APP_INTERMEDIATE_HOST
-          value: "intermediate-http-server"
+          value: "intermediate-http-service"
         - name: DEMO_CONFIG_FILE
           value: "/config/requests.json"
         volumeMounts:
