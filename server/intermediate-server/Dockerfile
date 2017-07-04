@@ -8,7 +8,7 @@ RUN mkdir -p /usr/local/k8s_microsim && cd /usr/local/k8s_microsim
 COPY server.py /usr/local/k8s_microsim
 WORKDIR /usr/local/k8s_microsim/
 
-ENV DEMO_APP_PORT=9010
+ENV DEMO_APP_PORT=9000
 ENV TERM=xterm
 
 CMD python server.py
