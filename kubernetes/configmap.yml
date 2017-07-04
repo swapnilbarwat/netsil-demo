@@ -6,7 +6,7 @@ metadata:
 data:
   # example of a complex property defined using --from-file
   requests.json: |
-{
+  {
   "mysql": [
     {
       "command": "INSERT INTO employee (fname, lname) VALUES ('first name', 'last name')",
