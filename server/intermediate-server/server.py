@@ -18,7 +18,7 @@ import psycopg2
 # ENVIORNMENT VARAIBLES initialization
 DEMO_APP_INTERMEDIATE_PORT = os.getenv('DEMO_APP_INTERMEDIATE_PORT', '9010')
 DEMO_APP_HOST = os.getenv('DEMO_APP_URL','127.0.0.1')
-DEMO_APP_PORT = os.getenv('DEMO_APP_PORT', '9000')
+DEMO_APP_PORT = os.getenv('DEMO_APP_PORT', '9010')
 DEMP_APP_URL = "http://" + DEMO_APP_HOST + ":" + DEMO_APP_PORT
 
 iniitalized = False
