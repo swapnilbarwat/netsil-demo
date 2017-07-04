@@ -5,69 +5,69 @@ metadata:
   namespace: default
 data:
   requests.json: |
-    {
-    "mysql": [
       {
-        "command": "INSERT INTO employee (fname, lname) VALUES ('first name', 'last name')",
-        "count": "100"
-      },
-      {
-        "command": "select * from employee",
-        "count": "100"
-      }
-    ],
-    "postgres": [
-       {
+      "mysql": [
+        {
           "command": "INSERT INTO employee (fname, lname) VALUES ('first name', 'last name')",
           "count": "100"
-       },
-       {
+        },
+        {
           "command": "select * from employee",
           "count": "100"
-       }
-    ],
-    "http":[
-    {
-      "success": {
-        "count": "3"
-      },
-      "errors": [
-        {
-          "http_code": "403",
-          "count": "3"
-        },
-        {
-          "http_code": "304",
-          "count": "3"
-        },
-        {
-          "http_code": "305",
-          "count": "4"
         }
-      ]
-    }
-    ],
-    "dynamodb": {
-      "recordCount": "100",
-      "isAWS": false,
-      "AWS": {
-        "region": "us-west-2",
-        "accessKey": "123456789",
-        "secretKey": "123456789"
+      ],
+      "postgres": [
+         {
+            "command": "INSERT INTO employee (fname, lname) VALUES ('first name', 'last name')",
+            "count": "100"
+         },
+         {
+            "command": "select * from employee",
+            "count": "100"
+         }
+      ],
+      "http":[
+      {
+        "success": {
+          "count": "3"
+        },
+        "errors": [
+          {
+            "http_code": "403",
+            "count": "3"
+          },
+          {
+            "http_code": "304",
+            "count": "3"
+          },
+          {
+            "http_code": "305",
+            "count": "4"
+          }
+        ]
       }
-    },
-    "memcached": {
-      "count": "100",
-      "key": "anykey",
-      "value": "anyvalue"
-    },
-    "cassandra": {
-      "count": "100"
-    },
-    "intermediate": {
-      "postgres": {
-        "success": "100",
-        "failure": "100"
+      ],
+      "dynamodb": {
+        "recordCount": "100",
+        "isAWS": false,
+        "AWS": {
+          "region": "us-west-2",
+          "accessKey": "123456789",
+          "secretKey": "123456789"
+        }
+      },
+      "memcached": {
+        "count": "100",
+        "key": "anykey",
+        "value": "anyvalue"
+      },
+      "cassandra": {
+        "count": "100"
+      },
+      "intermediate": {
+        "postgres": {
+          "success": "100",
+          "failure": "100"
+        }
       }
-    }
-   }
+     }
