@@ -179,11 +179,11 @@ def connectMysqlDB():
                     else:
                         cur.execute(query)
                         for row in cur:
-                            print("[" + timestamp + "] [MYSQL]" + row)
+                            print("[" + timestamp + "] [MYSQL]" + str(row))
                 else:
                     cur.execute(query)
                     for row in cur:
-                        print("[" + timestamp + "] [MYSQL]" + row)
+                        print("[" + timestamp + "] [MYSQL]" + str(row))
     db.close()
 
 def redisClient():
