@@ -177,6 +177,7 @@ def connectMysqlDB():
                     #no of records does not match with count in json then keep on inserting.
                     if(int(result) != int(count)):
                         cur.execute(query)
+                        db.commit()
                         for row in cur:
                             print(row)
                 else:
@@ -184,7 +185,6 @@ def connectMysqlDB():
                     result=cur.fetchall()
                     for row in result:
                         print("[" + timestamp + "] [MYSQL]" + str(row))
-    db.commit()
     db.close()
 
 def redisClient():
