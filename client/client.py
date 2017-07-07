@@ -45,7 +45,8 @@ from uuid import uuid4
 
 import datetime
 
-timestamp=datetime.datetime.now()
+timestampObj=datetime.datetime.now()
+timestamp=str(timestampObj)
 
 DEMO_APP_HOST = os.getenv('DEMO_APP_HOST', '35.184.3.133')
 DEMO_APP_PORT = os.getenv('DEMO_APP_PORT', '9000')
