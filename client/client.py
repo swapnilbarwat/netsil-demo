@@ -176,6 +176,7 @@ def connectMysqlDB():
                     print result
                     #no of records does not match with count in json then keep on inserting.
                     if(int(result) != int(count)):
+                        print "inside insert query"
                         cur.execute(query)
                         db.commit()
                         for row in cur:
