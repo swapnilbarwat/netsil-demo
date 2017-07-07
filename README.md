@@ -3,16 +3,15 @@ Netil Demo app.
 Netsil demo app is the client-server app written in Python. 
 
 ## Architecture
------
+
 ![Architecture diagram](architecture.png)
 
 ## Usage
------
 
 Netsil creating external client.
 -----
 
-- to start client from outside of the cluster, please use following steps:
+To start client from outside of the cluster, please use following steps:
 
 1) get external ip's of the all service using command: kubectl get services
 2) Each service will be assigned an external ip. Copy those in the following command:
