@@ -179,10 +179,11 @@ def connectMysqlDB():
                     else:
                         cur.execute(query)
                         for row in cur:
-                            print("[" + timestamp + "] [MYSQL]" + str(row))
+                            print(row)
                 else:
                     cur.execute(query)
-                    for row in cur:
+                    result=cur.fetchall()
+                    for row in result:
                         print("[" + timestamp + "] [MYSQL]" + str(row))
     db.close()
 
