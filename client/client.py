@@ -174,9 +174,7 @@ def connectMysqlDB():
                     cur.execute("Select count(*) from employee")
                     result=cur.fetchone()
                     #no of records does not match with count in json then keep on inserting.
-                    if(result >= int(count)):
-                        isInsertdone=True
-                    else:
+                    if(int(result) != int(count)):
                         cur.execute(query)
                         for row in cur:
                             print(row)
@@ -185,6 +183,7 @@ def connectMysqlDB():
                     result=cur.fetchall()
                     for row in result:
                         print("[" + timestamp + "] [MYSQL]" + str(row))
+    db.commit()
     db.close()
 
 def redisClient():
