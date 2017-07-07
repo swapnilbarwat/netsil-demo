@@ -43,6 +43,10 @@ from cassandra import ReadTimeout
 import uuid
 from uuid import uuid4
 
+import datetime
+
+timestamp=datetime.datetime.now()
+
 DEMO_APP_HOST = os.getenv('DEMO_APP_HOST', '35.184.3.133')
 DEMO_APP_PORT = os.getenv('DEMO_APP_PORT', '9000')
 DEMO_CONFIG_FILE = os.getenv('DEMO_CONFIG_FILE', 'requests.json')
@@ -110,7 +114,7 @@ def sendSuccessRequests(http_client, request_count, isHttps):
         except Exception as e:
             print (str(e))
             pass
-        print ( "Request sent count -" + str(lcount))
+        print ( "[" + timestamp + "] [HTTP] Request sent count -" + str(lcount))
 
 @statsObj.timer('http.error.latency')
 def sendErrorRequests(http_client, errorList, isHttps):
@@ -137,7 +141,7 @@ def sendErrorRequests(http_client, errorList, isHttps):
                 pass
             except Exception as e:
                 print (str(e))
-            print ( "Request with " + str(error['http_code']) + " sent with count -" + str(lcount))
+            print ( "[" + timestamp + "] [HTTPS] Request with " + str(error['http_code']) + " sent with count -" + str(lcount))
 
 class Request():
     def __init__(self,response_code):
@@ -174,11 +178,11 @@ def connectMysqlDB():
                     else:
                         cur.execute(query)
                         for row in cur:
-                            print(row)
+                            print("[" + timestamp + "] [MYSQL]" + row)
                 else:
                     cur.execute(query)
                     for row in cur:
-                        print(row)
+                        print("[" + timestamp + "] [MYSQL]" + row)
     db.close()
 
 def redisClient():
@@ -186,10 +190,10 @@ def redisClient():
 
     count=10
     for i in range(count):
-        print("Adding key redis-key-" + str(i))
+        print("[" + timestamp + "] [REDIS] Adding key redis-key-" + str(i))
         r.set('redis-key-' + str(i), 'redis-value-' + str(i))
         time.sleep(2)
-        print("Reading redis-key-" + str(i) + " with value " + str(r.get('redis-key-' + str(i))))
+        print("[" + timestamp + "] [REDIS] Reading redis-key-" + str(i) + " with value " + str(r.get('redis-key-' + str(i))))
         print ("waiting for 5 sec..")
         #deleting key once insert and read is finished
         r.delete('redis-key-'+str(i))
@@ -213,7 +217,7 @@ def thriftClient():
 
         # Run showCurrentTimestamp() method on server
         currentTime = client.showCurrentTimestamp()
-        print currentTime
+        print "[" + timestamp + "] [THRIFT]" + currentTime
 
         # Assume that you have a job which takes some time
         # but client sholdn't have to wait for job to finish 
@@ -269,7 +273,7 @@ def dynamoDBCreateTable(isAWS,region,accessKeyId,secretKeyId):
         if e.response['Error']['Code'] == 'ResourceNotFoundException':
             isDynamodTableExist=False
     if(isDynamodTableExist == False):
-        print("Creating dynamodb table")
+        print("[" + timestamp + "] [DYNAMODB] Creating dynamodb table")
         table = dClient.create_table(
             TableName='users',
             KeySchema=[
@@ -298,14 +302,14 @@ def dynamoDBCreateTable(isAWS,region,accessKeyId,secretKeyId):
                 }
         )
     else:
-        print("table exist...skipping")
+        print("[" + timestamp + "] [DYNAMODB] table exist...skipping")
 
 def dynamoDBCreateItem(isAWS, count, region,accessKeyId,secretKeyId):
     if(isAWS):
         # Get the service resource.
         dClient = boto3.resource('dynamodb',region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
         #create table
-        print("Creating dynamodb table")
+        print("[" + timestamp + "] [DYNAMODB] Creating dynamodb item")
     else:
          # Get the service resource.
         dClient = boto3.resource('dynamodb',endpoint_url=DYNAMODB_HOST_URL,region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
@@ -331,7 +335,7 @@ def dynamoDBReadItem(isAWS,count, region,accessKeyId,secretKeyId):
         # Get the service resource.
         dClient = boto3.resource('dynamodb',region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
         #create table
-        print("Creating dynamodb table")
+        print("[" + timestamp + "] [DYNAMODB] Creating dynamodb item")
     else:
          # Get the service resource.
         dClient = boto3.resource('dynamodb',endpoint_url=DYNAMODB_HOST_URL,region_name=region,aws_access_key_id=accessKeyId,aws_secret_access_key=secretKeyId)
@@ -379,7 +383,7 @@ def postgres():
                 if("INSERT" in query):
                     cur.execute("Select count(*) from employee")
                     result=cur.fetchone()
-                    print("total records" + str(result))
+                    print("[" + timestamp + "] [POSTGRES] total records" + str(result))
                     #no of records does not match with count in json then keep on inserting.
                     if(result >= int(count)):
                         print("skipping insert query..")
@@ -388,11 +392,10 @@ def postgres():
                         cur.execute(query)
                         conn.commit()
                 else:
-                    print("from else " + query)
                     cur.execute(query)
                     rows=cur.fetchall()
                     for row in rows:
-                        print("id: " + str(row[0]) + "fname: " +  str(row[1]) + "lname: " + str(row[2]))
+                        print("[" + timestamp + "] [POSTGRES] id: " + str(row[0]) + "fname: " +  str(row[1]) + "lname: " + str(row[2]))
     cur.close()
     conn.close()
 
@@ -412,14 +415,14 @@ def memcached():
     for i in range(int(count)):
         try:
             mc[key+str(i)] = value+str(i)
-            print("added key - " + mc[key+str(i)])
+            print("[" + timestamp + "] [MEMCACHED] added key - " + mc[key+str(i)])
         except Exception as e:
             print (str(e))
 
     print("deleting key/value from memcached")
     for i in range(int(count)):
         del mc[key+str(i)]
-        print("deleting " + key+str(i))
+        print("[" + timestamp + "] [MEMCACHED] deleting " + key+str(i))
 
 
 def cassandra():
@@ -428,7 +431,6 @@ def cassandra():
     session.default_timeout = 30
     for key in cluster.metadata.keyspaces:
         if(key == "employee"):
-            print("key found..")
             global isCassandraKeyExist
             isCassandraKeyExist=True
     if(isCassandraKeyExist == False):
@@ -448,12 +450,11 @@ def cassandra():
           """,
           {'id': str(uuid.uuid4()), 'fname': "first name", 'lname': 'last name'}
         )
-    print("reading queries from cassandra")
     future = session.execute_async("SELECT * FROM employee")
     try:
         rows = future.result()
         for row in rows:
-            print row.id, row.fname, row.lname
+            print "[" + timestamp + "] [CASSANDRA]" + row.id, row.fname, row.lname
     except ReadTimeout:
         log.exception("Query timed out:")
 
@@ -475,7 +476,7 @@ def intermediateHttpServer():
             http_request = HTTPRequest( DEMO_APP_INTERMEDIATE_API_URL,"POST",headers,body=reqObJson  )
             http_client.fetch(http_request)
         except Exception as e:
-            print (str(e))
+            print ("[" + timestamp + "] [INTERMEDIATEREQUEST]" + str(e))
             pass
             
         http_client.close()
