@@ -171,8 +171,9 @@ def connectMysqlDB():
             for i in range(int(count)):
                 #if query is insert and already not run
                 if ("INSERT" in query):
-                    cur.execute("Select count(*) from employee")
-                    result=cur.fetchone()
+                    cur.execute("Select * from employee")
+                    result=cursor.rowcount
+                    print result
                     #no of records does not match with count in json then keep on inserting.
                     if(int(result) != int(count)):
                         cur.execute(query)
