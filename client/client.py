@@ -170,11 +170,11 @@ def connectMysqlDB():
             count=command['count']
             for i in range(int(count)):
                 #if query is insert and already not run
-                if((query.find("insert"))):
+                if ("INSERT" in query):
                     cur.execute("Select count(*) from employee")
                     result=cur.fetchone()
                     #no of records does not match with count in json then keep on inserting.
-                    if(result == int(count)):
+                    if(result >= int(count)):
                         isInsertdone=True
                     else:
                         cur.execute(query)
@@ -492,26 +492,26 @@ def main():
     global isCassandraKeyExist
     isCassandraKeyExist=False
     while(1):
-        print("Calling http client")
-        async_client(False)
-        print("Calling https client")
-        async_client(True)
+        # print("Calling http client")
+        # async_client(False)
+        # print("Calling https client")
+        # async_client(True)
         print("Calling mysql client")
         connectMysqlDB()
-        print("calling redis client")
-        redisClient()
-        print("Calling thrift cleint")
-        thriftClient()
-        print("Calling dynamodb")
-        dyanamoDB()
-        print("calling postgres")
-        postgres()
-        print("calling memcached")
-        memcached()
-        print("calling cassandra")
-        cassandra()
-        print("calling intermediate http server")
-        intermediateHttpServer()
+        # print("calling redis client")
+        # redisClient()
+        # print("Calling thrift cleint")
+        # thriftClient()
+        # print("Calling dynamodb")
+        # dyanamoDB()
+        # print("calling postgres")
+        # postgres()
+        # print("calling memcached")
+        # memcached()
+        # print("calling cassandra")
+        # cassandra()
+        # print("calling intermediate http server")
+        # intermediateHttpServer()
         print("Waiting for 5 sec...")
         time.sleep(5)
 
