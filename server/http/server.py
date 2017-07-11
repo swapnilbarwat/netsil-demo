@@ -87,7 +87,7 @@ class Application(tornado.web.Application):
 class PostgresFailHandler(tornado.web.RequestHandler):
     @gen.coroutine
     def post(self):
-        print ("POST ==> calling HttpHandler")
+        print ("POST ==> calling PostgresFailHandler")
         requestData=Data(self.request.body)
         print("inside failure")
         try:
@@ -100,7 +100,7 @@ class PostgresFailHandler(tornado.web.RequestHandler):
 class PostgresSuccessHandler(tornado.web.RequestHandler):
     @gen.coroutine
     def post(self):
-        print ("POST ==> calling HttpHandler")
+        print ("POST ==> calling PostgresSuccessHandler")
         requestData=Data(self.request.body)
         print("inside success")
         try:

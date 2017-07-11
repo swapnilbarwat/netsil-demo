@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: intermediate-http-server
-        image: harshals/intermediate_server:development
+        image: harshals/intermediate_server
         ports:
         - containerPort: 9010
           name: http-port
