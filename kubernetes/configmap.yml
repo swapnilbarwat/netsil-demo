@@ -9,7 +9,7 @@ data:
     "mysql": [
       {
         "command": "INSERT INTO employee (fname, lname) VALUES ('first name', 'last name')",
-        "count": "100"
+        "count": "10"
       },
       {
         "command": "select * from employee",
