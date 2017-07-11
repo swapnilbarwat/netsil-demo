@@ -27,7 +27,7 @@ fi
 
 kubectl replace  -f $f
 if [ $? -eq 0 ]; then
-	REPLICA=$(grep -A3 'spec:' $CLIENT_YML | head -n2 | grep -A2 'replicas:' | cut -d':' -f2)
+	REPLICA=$(kubectl get deployment netsil-client --output=jsonpath={.status.replicas})
 	echo "deleting old deployment.."
 	kubectl scale deploy/netsil-client --replicas=0
 	echo "creating new deployment.."

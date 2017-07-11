@@ -510,8 +510,8 @@ def main():
         cassandra()
         print("calling intermediate http server")
         intermediateHttpServer()
-        print("Waiting for 5 sec...")
-        time.sleep(5)
+        # print("Waiting for 5 sec...")
+        # time.sleep(5)
 
 if __name__ == "__main__":
     main()
