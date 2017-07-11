@@ -17,3 +17,6 @@ spec:
           name: http-port
         - containerPort: 443
           name: https-port
+        env:
+        - name: "POSTGRES_HOST"
+          value: "postgres-server"
