@@ -45,12 +45,12 @@ class PostgresHandler(tornado.web.RequestHandler):
         failCount=requestData.failure
         print(succesCount)
         print(failCount)
+        reqObJson = json.dumps(requestData)
         for i in range(int(failCount)): 
             headers = {'Content-Type': 'application/json'}
             try:
                 http_client = HTTPClient()
                 API_URL = DEMP_APP_URL + "/intermediatecallpostgresfail"
-                reqObJson = json.dumps(self.request.body.__dict__)
             except Exception as e:
                 print ( "Unable to create Client" + str(e))
             try:
@@ -69,7 +69,6 @@ class PostgresHandler(tornado.web.RequestHandler):
             try:
                 http_client = HTTPClient()
                 API_URL = DEMP_APP_URL + "/intermediatecallpostgressuccess"
-                reqObJson = json.dumps(self.request.body.__dict__)
             except Exception as e:
                 print ( "Unable to create Client" + str(e))
             try:
