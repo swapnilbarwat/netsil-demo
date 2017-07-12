@@ -45,7 +45,6 @@ class PostgresHandler(tornado.web.RequestHandler):
         failCount=requestData.failure
         print(succesCount)
         print(failCount)
-        reqObJson = json.dumps(requestData)
         for i in range(int(failCount)): 
             headers = {'Content-Type': 'application/json'}
             try:
@@ -54,7 +53,7 @@ class PostgresHandler(tornado.web.RequestHandler):
             except Exception as e:
                 print ( "Unable to create Client" + str(e))
             try:
-                http_request = HTTPRequest(API_URL,"POST",headers,body=reqObJson)
+                http_request = HTTPRequest(API_URL,"POST",headers,body=requestData)
                 http_client.fetch(http_request)
             except HTTPError as e:
                 print(HTTPError)
@@ -72,7 +71,7 @@ class PostgresHandler(tornado.web.RequestHandler):
             except Exception as e:
                 print ( "Unable to create Client" + str(e))
             try:
-                http_request = HTTPRequest(API_URL,"POST",headers,body=reqObJson)
+                http_request = HTTPRequest(API_URL,"POST",headers,body=requestData)
                 http_client.fetch(http_request)
             except HTTPError as e:
                 print(HTTPError)
