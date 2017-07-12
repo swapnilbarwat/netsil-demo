@@ -50,10 +50,11 @@ class PostgresHandler(tornado.web.RequestHandler):
             try:
                 http_client = HTTPClient()
                 API_URL = DEMP_APP_URL + "/intermediatecallpostgresfail"
+                reqObJson = json.dumps(self.request.body.__dict__)
             except Exception as e:
                 print ( "Unable to create Client" + str(e))
             try:
-                http_request = HTTPRequest(API_URL,"POST",headers,body=self.request.body)
+                http_request = HTTPRequest(API_URL,"POST",headers,body=reqObJson)
                 http_client.fetch(http_request)
             except HTTPError as e:
                 print(HTTPError)
@@ -68,10 +69,11 @@ class PostgresHandler(tornado.web.RequestHandler):
             try:
                 http_client = HTTPClient()
                 API_URL = DEMP_APP_URL + "/intermediatecallpostgressuccess"
+                reqObJson = json.dumps(self.request.body.__dict__)
             except Exception as e:
                 print ( "Unable to create Client" + str(e))
             try:
-                http_request = HTTPRequest(API_URL,"POST",headers,body=self.request.body)
+                http_request = HTTPRequest(API_URL,"POST",headers,body=reqObJson)
                 http_client.fetch(http_request)
             except HTTPError as e:
                 print(HTTPError)
