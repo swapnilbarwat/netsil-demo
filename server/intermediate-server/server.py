@@ -56,7 +56,7 @@ class PostgresHandler(tornado.web.RequestHandler):
                 http_request = HTTPRequest(API_URL,"GET",headers)
                 http_client.fetch(http_request)
             except HTTPError as e:
-                print(HTTPError)
+                print(e.message)
                 pass
             else:
                 response = http_client.fetch(http_request)
@@ -74,7 +74,7 @@ class PostgresHandler(tornado.web.RequestHandler):
                 http_request = HTTPRequest(API_URL,"GET",headers)
                 http_client.fetch(http_request)
             except HTTPError as e:
-                print(HTTPError)
+                print(e.message)
                 pass
             else:
                 response = http_client.fetch(http_request)
